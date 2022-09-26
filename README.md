@@ -9,7 +9,7 @@ This project contains the toolbar (or header) and the headline section (right af
    
 
 # Live Demo (if available)
-  https://calicartels.github.io/Portfolio/ 
+  https://calicartels.github.io/#
 
 # Getting Started
   To get a local copy up and running follow these simple example steps.
