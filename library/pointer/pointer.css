@@ -1,0 +1,55 @@
+#pointer-dot {
+  left: -6.8px;
+  top: -6.5px;
+  width: 0px;
+  height: 0;
+  /* border: 18px solid white !important; */
+  border: 7px solid white !important;
+
+  transform: translate3d(0, 0, 0);
+  mix-blend-mode: difference;
+  position: fixed;
+  border-radius: 50%;
+  z-index: 101000;
+  pointer-events: none;
+  transition: border-color 0.5s;
+}
+
+#pointer-ring {
+  z-index: 10000 !important;
+  border-radius: 50%;
+  pointer-events: none;
+  overflow: hidden;
+  position: fixed;
+  /* border: 2px solid white !important; */
+  border: 2px solid white !important;
+
+  mix-blend-mode: difference;
+  transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
+  /* width: 80px;
+  height: 80px; */
+  width: 50px;
+  height: 50px;
+  /* left: -27px;
+  top: -20px; */
+  left: -10.5px;
+  top: -10px;
+}
+
+html {
+  cursor: none;
+}
+
+/* video {
+  cursor: none;
+} */
+
+a,
+button,
+.btn {
+  cursor: none !important;
+}
+
+.modal-content {
+  cursor: none !important;
+}

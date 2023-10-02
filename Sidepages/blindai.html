@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <title>Your Name</title>
+    <style>
+        /* global */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.grid-2{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #101214;
+    color: #7A7C80;
+
+}
+.tiles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tile {
+    position: relative;
+    float: left;
+    width: 33.333%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: transform .5s ease-out;
+}
+
+.txt {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 10%;
+    left: 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 9px;
+    line-height: 12px;
+    text-align: center;
+    cursor: default;
+}
+
+h2,.white{
+    color: #fff;
+}
+
+a{
+    color: #7A7C80;
+    text-decoration: none;
+}
+/* section 1 */
+.section-1{
+    padding-top: 40vh;
+    text-align: center;
+}
+
+.section-1 p{
+    font-size: 1.1rem;
+    padding-bottom: 10px;
+    margin:0;
+}
+
+.section-1 h2{
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+}
+
+.section-1 a{
+    font-size: 1.5rem;
+    padding: 10px;
+}
+/* section 2 */
+.section-2{
+    padding-top: 10vh;
+    width: 70%;
+}
+
+.section-2 h2{
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+}
+
+.section-2 p{
+    font-size: 1.1rem;
+    padding-bottom: 10px;
+    margin:0;
+}
+
+.section-2 a{
+    display: block;
+    padding: 5px;
+    font-size: 1.2rem;
+    padding-left: 0;
+    width: 100px;
+}
+/* animations / utilities */
+.section-2 a:hover{
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.section-1 a:hover{
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.white:hover{
+    position: relative;
+    padding-left: 10px;
+}
+
+/* media queres */
+@media(max-width:780px){
+    .grid-2{
+        grid-template-columns: 1fr;
+    }
+    .section-1{
+        padding:0;
+        padding-top: 5rem;
+    }
+    .section-2{
+        padding: 0;
+        padding-left: 1.5rem;
+        padding-top: 2rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="grid-2">
+        <div class="section-1">
+            <i class="fas fa-code fa-5x white"></i>
+            <h2>Blind.ai</h2>
+            <p style="background-image: url('C:\Users\tmvis\OneDrive\Desktop\WEB DEV\LLMS\tjandra-putra.github.io-main\assets\image\Blind_Ai Logo.png');"></p>
+            <a href="https://github.com/calicartels/blind.ai"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/vishnu-mukundan-tm-2a1112230/"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="section-2">
+            <h2>Problem Statement</h2>
+            <p>Vision impairment poses an enormous global financial burden with the annual global costs of productivity 
+               losses associated with vision impairment estimated to be US$ 411 billion. The main challenges faced by blind people include
+               <ul>
+                <li>Navigating around places</li>
+                <li>Finding reading material</li>
+               </ul>
+            </p>
+            <h2>Solution</h2>
+            <p>A voice and gesture based app to make the lives of visually impaired people a little more ordinary. This app essentially helps in gaining independence
+                without having to rely on external devices that may not be accessible to most people.
+                All the features are accessible via swipe/hold gestures and voice commands. 
+                Simply say “blind_ai” followed by the feature you want to access to activate. The app uses speech to notify the results to the users.
+            </p>
+
+            <h2>Key Features</h2>
+            <p>
+                <ol>
+                    <li>Voice Commands</li>
+                    <li>SOS - Quickly send alerts to your emergency contacts</li>
+                    <li>Object Detection - Detects the object in front of you and the distance you are from it.</li>
+                    <li>Currency Detection - Detects currency denominations.</li>
+                    <li>Read Text - Reads the text for you.</li>
+                </ol>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
