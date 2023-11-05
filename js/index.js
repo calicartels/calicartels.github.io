@@ -124,7 +124,7 @@ $(".project-design img").on("mouseleave", function () {
 // ========================== TYPE.JS ==========================
 // strings: [ 'Data Analyst.', 'Web Developer.', 'Mobile Developer.', 'RPA Developer.', 'UI/UX Designer.' ]
 var typed = new Typed(".type", {
-  strings: ["Data Scientist.", "Machine Learning Engineer.", "Social Worker."],
+  strings: ["Data Scientist.", "AI Enthusiast.", "Social Worker."],
   typeSpeed: 50,
   backSpeed: 50,
   loop: true,
