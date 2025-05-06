@@ -280,6 +280,86 @@ tippy("#play", {
 
 
 
+// Experience Section JavaScript
+$(document).ready(function() {
+  // Tab switching functionality
+  $("#internship-btn").click(function() {
+    // Update buttons
+    $(".tab-button").removeClass("active");
+    $(this).addClass("active");
+    
+    // Move slider
+    $(".slider").css("transform", "translateX(0)");
+    
+    // Show appropriate content
+    $(".tab-pane").removeClass("active");
+    $("#internships").addClass("active");
+  });
+  
+  $("#research-btn").click(function() {
+    // Update buttons
+    $(".tab-button").removeClass("active");
+    $(this).addClass("active");
+    
+    // Move slider
+    $(".slider").css("transform", "translateX(100%)");
+    
+    // Show appropriate content
+    $(".tab-pane").removeClass("active");
+    $("#research").addClass("active");
+  });
+  
+  // Fixed smooth expand/collapse functionality
+  $(".timeline-title").click(function() {
+    var targetId = $(this).data("target");
+    var $content = $("#" + targetId);
+    var isExpanded = $(this).attr("aria-expanded") === "true";
+    
+    // First close all other items
+    $(".timeline-details").not($content).removeClass("show");
+    $(".timeline-details").not($content).css({
+      "max-height": "0",
+      "opacity": "0",
+      "padding": "0"
+    });
+    
+    $(".timeline-title").not(this).attr("aria-expanded", "false");
+    $(".timeline-title").not(this).find(".expand-icon").html("+");
+    
+    // Then toggle this item
+    if (isExpanded) {
+      $(this).attr("aria-expanded", "false");
+      $(this).find(".expand-icon").html("+");
+      
+      $content.css({
+        "max-height": "0",
+        "opacity": "0",
+        "padding": "0"
+      });
+      
+      setTimeout(function() {
+        $content.removeClass("show");
+      }, 300);
+    } else {
+      $(this).attr("aria-expanded", "true");
+      $(this).find(".expand-icon").html("−");
+      
+      $content.addClass("show");
+      
+      setTimeout(function() {
+        $content.css({
+          "max-height": "700px", // Increased from 500px to allow more content
+          "opacity": "1",
+          "padding": "15px 20px"
+        });
+      }, 10);
+    }
+  });
+  
+  // Initialize all items as collapsed
+  $(".timeline-title").attr("aria-expanded", "false");
+});
+
 // ========================== GET CURRENT YEAR FOR COPYRIGHT ==========================
 document.getElementById("copyright").appendChild(document.createTextNode(new Date().getFullYear()));
 
