@@ -2017,6 +2017,7 @@ body {
   border: 1px solid #eee;
 }
 
+
 /* Content Positioning */
 .timeline-content {
   width: 40%;
@@ -2045,14 +2046,35 @@ body {
   margin-left: 5%;
 }
 
+/* New styles for left dates */
 .timeline-item.left .timeline-date {
-  left: 5%;
+  right: 52%; /* Position closer to the timeline dot */
+  text-align: right;
+}
+
+/* New styles for right dates */
+.timeline-item.right .timeline-date {
+  left: 52%; /* Position closer to the timeline dot */
   text-align: left;
 }
 
-.timeline-item.right .timeline-date {
-  right: 5%;
-  text-align: right;
+/* Add connecting lines to dates */
+.timeline-item.left .timeline-date::after,
+.timeline-item.right .timeline-date::before {
+  content: "";
+  width: 20px;
+  height: 2px;
+  background-color: #ccc;
+  position: absolute;
+  top: 50%;
+}
+
+.timeline-item.left .timeline-date::after {
+  right: -20px;
+}
+
+.timeline-item.right .timeline-date::before {
+  left: -20px;
 }
 
 /* Clear floats */
