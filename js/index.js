@@ -4,29 +4,31 @@ window.onload = function () {
 
 // ========================== CAROUSEL DRAG TO SCROLL ==========================
 const slider = document.querySelector(".carousel");
-let isDown = false;
-let startX;
-let scrollLeft;
+if (slider) {  // Only run if carousel exists
+  let isDown = false;
+  let startX;
+  let scrollLeft;
 
-slider.addEventListener("mousedown", (e) => {
-  isDown = true;
-  startX = e.pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-});
-slider.addEventListener("mouseleave", () => {
-  isDown = false;
-});
-slider.addEventListener("mouseup", () => {
-  isDown = false;
-});
-slider.addEventListener("mousemove", (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - slider.offsetLeft;
-  const walk = (x - startX) * 3; //scroll-fast
-  slider.scrollLeft = scrollLeft - walk;
-  console.log(walk);
-});
+  slider.addEventListener("mousedown", (e) => {
+    isDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener("mouseleave", () => {
+    isDown = false;
+  });
+  slider.addEventListener("mouseup", () => {
+    isDown = false;
+  });
+  slider.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 3; //scroll-fast
+    slider.scrollLeft = scrollLeft - walk;
+    console.log(walk);
+  });
+}
 
 // ======================= CUSTOM CURSOR ======================
 var cursor = $(".cursor"),
@@ -84,45 +86,7 @@ $(".project-design img").on("mouseleave", function () {
   follower.removeClass("active");
 });
 
-// ======================= INTRODUCTION MODAL ======================
-// function resizeForm() {
-//   // only runs on desktop
-//   var width =
-//     window.innerWidth > 0
-//       ? window.innerWidth
-//       : document.documentElement.clientWidth;
-//   if (width > 1024) {
-//     setTimeout(function () {
-//       $("#introduction-modal").modal("show");
-//     }, 3700);
-//   } else {
-//   }
-// }
-
-// window.onresize = resizeForm;
-// resizeForm();
-
-// setTimeout(function () {
-//   $("#introduction-modal").modal("show");
-// }, 3300);
-
-// // Modal Animation on show
-// $("#introduction-modal").on("show.bs.modal", function (e) {
-//   $("#introduction-modal").attr(
-//     "class",
-//     "modal animate__animated animate__slideInDown"
-//   );
-// });
-
-// $("#archive-modal").on("show.bs.modal", function (e) {
-//   $("#archive-modal").attr(
-//     "class",
-//     "modal animate__animated animate__bounceInDown"
-//   );
-// });
-
 // ========================== TYPE.JS ==========================
-// strings: [ 'Data Analyst.', 'Web Developer.', 'Mobile Developer.', 'RPA Developer.', 'UI/UX Designer.' ]
 var typed = new Typed(".type", {
   strings: ["Data Scientist.", "AI Enthusiast.", "Social Worker."],
   typeSpeed: 50,
@@ -131,73 +95,72 @@ var typed = new Typed(".type", {
 });
 
 // ========================== NAVIGATION BAR CUSTOM ==========================
-document.getElementById("navbar").style.background = "white";
+let prevScrollposForStickyNav = window.pageYOffset; // Used for the sticky navbar logic
 
 window.addEventListener("scroll", (event) => {
-  let scroll = this.scrollY;
-  if (scroll > 700) {
-    document.getElementById("navbar").style.background = "white";
-  } else {
-    document.getElementById("navbar").style.background = "white";
+  let currentScrollY = window.scrollY;
+
+  // Original logic from the first scroll handler (navbar background and icons)
+  const navbar = document.getElementById("navbar");
+  if (navbar) {
+    // This logic seems to always set it to white, could be simplified if that's intended.
+    if (currentScrollY > 700) {
+      navbar.style.background = "white";
+    } else {
+      navbar.style.background = "white";
+    }
   }
 
-  // for icons
-  if (scroll > 7370) {
-    document.getElementById("side-nav-github").style.color = "white";
-    document.getElementById("side-nav-linkedin").style.color = "white";
-    document.getElementById("side-nav-email").style.color = "white";
-    document.getElementById("side-email").style.color = "white";
-    document.getElementById("pause").style.filter = "invert(100)";
-    document.getElementById("play").style.filter = "invert(100)";
-    document.getElementById("vertical-line").style.borderColor = "white";
+  // Icon color changes
+  // const sideNavGithub = document.getElementById("side-nav-github");
+  // const sideNavLinkedin = document.getElementById("side-nav-linkedin");
+  // const sideNavEmailIcon = document.getElementById("side-nav-email");
+  // const sideEmailText = document.getElementById("side-email");
+  const pauseButton = document.getElementById("pause");
+  const playButton = document.getElementById("play");
+  const verticalLineElement = document.querySelector(".vertical-line"); // Changed to querySelector
+
+  if (currentScrollY > 7370) {
+    // if (sideNavGithub) sideNavGithub.style.color = "white";
+    // if (sideNavLinkedin) sideNavLinkedin.style.color = "white";
+    // if (sideNavEmailIcon) sideNavEmailIcon.style.color = "white";
+    // if (sideEmailText) sideEmailText.style.color = "white";
+    if (pauseButton) pauseButton.style.filter = "invert(100)";
+    if (playButton) playButton.style.filter = "invert(100)";
+    if (verticalLineElement) verticalLineElement.style.borderColor = "white";
   } else {
-    document.getElementById("side-nav-github").style.color = "black";
-    document.getElementById("side-nav-linkedin").style.color = "black";
-    document.getElementById("side-nav-email").style.color = "black";
-    document.getElementById("side-email").style.color = "black";
-    document.getElementById("pause").style.filter = "none";
-    document.getElementById("play").style.filter = "none";
-    document.getElementById("vertical-line").style.borderColor = "black";
+    // if (sideNavGithub) sideNavGithub.style.color = "black";
+    // if (sideNavLinkedin) sideNavLinkedin.style.color = "black";
+    // if (sideNavEmailIcon) sideNavEmailIcon.style.color = "black";
+    // if (sideEmailText) sideEmailText.style.color = "black";
+    if (pauseButton) pauseButton.style.filter = "none";
+    if (playButton) playButton.style.filter = "none";
+    if (verticalLineElement) verticalLineElement.style.borderColor = "black";
   }
 
-  console.log(scroll);
+  // console.log("Current Scroll Y:", currentScrollY); // For debugging scroll position
+
+  // Logic from the second scroll handler (sticky navbar)
+  // Assuming the same 'navbar' element is used for stickiness.
+  if (navbar) { 
+    if (prevScrollposForStickyNav > currentScrollY) {
+      navbar.style.top = "0";
+    } else {
+      navbar.style.top = "-100px";
+    }
+  }
+  prevScrollposForStickyNav = currentScrollY;
 });
-
-// Navbar sticky hidden when user scrolls up
-var prevScrollpos = window.pageYOffset;
-window.onscroll = function () {
-  var currentScrollPos = window.pageYOffset;
-  if (prevScrollpos > currentScrollPos) {
-    document.getElementById("navbar").style.top = "0";
-    // document.getElementById("nav-horizontal-line").style.top = "45px";
-  } else {
-    document.getElementById("navbar").style.top = "-100px";
-    // document.getElementById("nav-horizontal-line").style.top = "-100px";
-  }
-  prevScrollpos = currentScrollPos;
-};
 
 // ========================== ANIMATE ON SCROLL ==========================
 AOS.init({
   once: true,
 });
 
-// ========================== POINTER.JS CURSON ==========================
-// init_pointer({
-//   pointerColor: "#222",
-//   ringSize: 15,
-//   ringClickSize: 10,
-// });
-
 // ========================== CUSTOM MUSIC PLAYER ==========================
-// Bg Music
 var isPlaying = false;
 
 var audio = document.getElementById("myMusic");
-// audio.volume = 0.3;
-// audio.volume = 0.1;
-
-// audio.play();
 
 function musicHandler() {
   var audio = document.getElementById("myMusic");
@@ -208,18 +171,16 @@ function musicHandler() {
 
     var iconPause = document.getElementById("pause");
     var iconPlay = document.getElementById("play");
-    iconPlay.style.visibility = "visible";
-
-    iconPause.style.visibility = "hidden";
+    if (iconPlay) iconPlay.style.visibility = "visible";
+    if (iconPause) iconPause.style.visibility = "hidden";
   } else if (isPlaying === true) {
     isPlaying = false;
     audio.pause();
 
     var iconPause = document.getElementById("pause");
     var iconPlay = document.getElementById("play");
-    iconPlay.style.visibility = "hidden";
-
-    iconPause.style.visibility = "visible";
+    if (iconPlay) iconPlay.style.visibility = "hidden";
+    if (iconPause) iconPause.style.visibility = "visible";
   }
 }
 
@@ -232,35 +193,38 @@ function navMusicHandler() {
 
     var iconPause = document.getElementById("pause");
     var iconPlay = document.getElementById("play");
-    iconPlay.style.visibility = "visible";
-
-    iconPause.style.visibility = "hidden";
+    if (iconPlay) iconPlay.style.visibility = "visible";
+    if (iconPause) iconPause.style.visibility = "hidden";
   }
 }
 
 // ========================== TOOL TIP ==========================
-tippy("#side-nav-email", {
-  content: "Email",
-  animation: "scale",
-  duration: 500,
-  placement: "left",
-});
+if (document.getElementById("side-nav-email")) {
+  tippy("#side-nav-email", {
+    content: "Email",
+    animation: "scale",
+    duration: 500,
+    placement: "left",
+  });
+}
 
-tippy("#side-nav-github", {
-  content: "Github",
-  animation: "scale",
-  duration: 500,
-  placement: "left",
-});
+if (document.getElementById("side-nav-github")) {
+  tippy("#side-nav-github", {
+    content: "Github",
+    animation: "scale",
+    duration: 500,
+    placement: "left",
+  });
+}
 
-tippy("#side-nav-linkedin", {
-  content: "LinkedIn",
-  animation: "scale",
-  duration: 500,
-  placement: "left",
-});
-
-
+if (document.getElementById("side-nav-linkedin")) {
+  tippy("#side-nav-linkedin", {
+    content: "LinkedIn",
+    animation: "scale",
+    duration: 500,
+    placement: "left",
+  });
+}
 
 tippy("#about-smu", {
   content: "Mtech Integrated in CSE with Data Science",
@@ -268,17 +232,11 @@ tippy("#about-smu", {
   duration: 500,
 });
 
-
-
-
-
 tippy("#play", {
   content: "Currently Playing: \n Falling Through The Hour Glass",
   animation: "scale",
   duration: 500,
 });
-
-
 
 // Experience Section JavaScript
 $(document).ready(function() {
@@ -360,8 +318,42 @@ $(document).ready(function() {
   $(".timeline-title").attr("aria-expanded", "false");
 });
 
+// Horizontal Scroll Testimonials
+const testimonialsWrapper = document.querySelector('.testimonials-wrapper');
+const prevButton = document.querySelector('.prev-button');
+const nextButton = document.querySelector('.next-button');
+
+if (testimonialsWrapper) {
+    let cardWidth = document.querySelector('.testimonial-card').offsetWidth + 32;
+
+    nextButton.addEventListener('click', () => {
+        testimonialsWrapper.scrollBy({
+            left: cardWidth,
+            behavior: 'smooth'
+        });
+    });
+
+    prevButton.addEventListener('click', () => {
+        testimonialsWrapper.scrollBy({
+            left: -cardWidth,
+            behavior: 'smooth'
+        });
+    });
+
+    testimonialsWrapper.addEventListener('scroll', () => {
+        const atStart = testimonialsWrapper.scrollLeft === 0;
+        const atEnd = testimonialsWrapper.scrollLeft + testimonialsWrapper.clientWidth >= 
+                     testimonialsWrapper.scrollWidth - 1;
+
+        prevButton.style.visibility = atStart ? 'hidden' : 'visible';
+        nextButton.style.visibility = atEnd ? 'hidden' : 'visible';
+    });
+}
 // ========================== GET CURRENT YEAR FOR COPYRIGHT ==========================
-document.getElementById("copyright").appendChild(document.createTextNode(new Date().getFullYear()));
+const copyrightElement = document.getElementById("copyright");
+if (copyrightElement) {
+  copyrightElement.appendChild(document.createTextNode(new Date().getFullYear()));
+}
 
 // ========================== HIDE VIDEO CONTROLS DEFAULT ==========================
 // default hidden

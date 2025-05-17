@@ -1997,15 +1997,14 @@ body {
 }
 
 .timeline-item:hover .timeline-dot {
-  transform: scale(1.2) translateX(-42%);
-  box-shadow: 0 0 0 4px rgba(255,255,255,1), 0 0 0 6px rgba(0,0,0,0.2);
+  transform: scale(1.3);
+  box-shadow: 0 0 0 4px rgba(255,255,255,1), 0 0 0 6px rgba(0,0,0,0.3);
 }
-
 /* Date Styling */
 .timeline-date {
   position: absolute;
   width: auto;
-  top: 13px;
+  top: 10px;
   font-size: 0.9rem;
   font-weight: 500;
   color: #666;
@@ -2046,35 +2045,109 @@ body {
   margin-left: 5%;
 }
 
-/* New styles for left dates */
+/* Left/Right Positioning - Adjusted for symmetry */
 .timeline-item.left .timeline-date {
-  right: 52%; /* Position closer to the timeline dot */
+  right: 55%; /* Moved slightly further from timeline */
   text-align: right;
 }
 
-/* New styles for right dates */
 .timeline-item.right .timeline-date {
-  left: 52%; /* Position closer to the timeline dot */
+  left: 55%; /* Moved slightly further from timeline */
   text-align: left;
 }
 
-/* Add connecting lines to dates */
-.timeline-item.left .timeline-date::after,
-.timeline-item.right .timeline-date::before {
+
+/* Date Styling */
+.timeline-date {
+  position: absolute;
+  width: auto;
+  top: 13px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  z-index: 4;
+  background-color: white;
+  padding: 5px 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  border: 1px solid #eee;
+}
+
+/* Left/Right Positioning */
+.timeline-item.left .timeline-date {
+  right: 53%; /* Closer to the timeline */
+  text-align: right;
+}
+
+.timeline-item.right .timeline-date {
+  left: 53%; /* Closer to the timeline */
+  text-align: left;
+}
+
+/* Connecting lines from dates to dots */
+.timeline-item .timeline-date::after {
   content: "";
-  width: 20px;
+  position: absolute;
   height: 2px;
   background-color: #ccc;
-  position: absolute;
   top: 50%;
+  transform: translateY(-50%);
 }
+
+/* Left side line */
+.timeline-item.left .timeline-date::after {
+  width: 20px;
+  right: -20px;
+  left: auto;
+}
+
+/* Right side line */
+.timeline-item.right .timeline-date::after {
+  width: 20px;
+  left: -20px;
+  right: auto;
+}
+
+/* Hover effect for connecting lines */
+.timeline-item:hover .timeline-date::after {
+  background-color: #000;
+  height: 3px;
+}
+
+/* Keep the existing dot styles but ensure they don't interfere */
+.timeline-dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+  border: 4px solid #fff;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+
+
 
 .timeline-item.left .timeline-date::after {
-  right: -20px;
+  width: 30px; /* Increased width to reach the dot */
+  right: -30px;
 }
 
-.timeline-item.right .timeline-date::before {
-  left: -20px;
+/* Right side line - connects date to dot */
+
+
+
+.timeline-item:hover .timeline-date::after {
+  background-color: #000;
+  height: 3px;
+  transition: all 0.3s ease;
 }
 
 /* Clear floats */
@@ -2217,5 +2290,278 @@ body {
   
   .timeline-item {
     margin-bottom: 100px;
+  }
+}
+
+
+
+/* Testimonials Section with Fade Transition */
+.testimonials-section {
+  padding: 100px 0;
+  background-color: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 50px;
+  text-align: center;
+  color: #333;
+}
+
+.testimonials-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 500px; 
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+.testimonial-card {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.testimonial-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.testimonial-date {
+  font-size: 0.9rem;
+  color: #888;
+  font-style: italic;
+  margin-top: 25px;
+  padding-top: 20px;
+  position: relative;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.testimonial-author-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #0077b5;
+  flex-shrink: 0;
+}
+
+.testimonial-author-info {
+  flex: 1;
+}
+
+.testimonial-author-info h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.testimonial-author-info p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+.linkedin-link {
+  color: #0077b5;
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+  margin-left: auto;
+}
+
+.linkedin-link:hover {
+  color: #005582;
+  transform: scale(1.1);
+}
+
+.testimonial-text {
+  margin-top: 20px;
+}
+
+.testimonial-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Navigation dots */
+.testimonials-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 50px;
+}
+
+.nav-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #0077b5;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-dot.active {
+  background: #0077b5;
+  transform: scale(1.3);
+}
+
+.nav-dot:hover {
+  background: rgba(0, 119, 181, 0.3);
+}
+
+/* Quote decoration */
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 6rem;
+  color: rgba(0, 119, 181, 0.1);
+  font-family: Georgia, serif;
+  line-height: 1;
+  z-index: 1;
+}
+
+/* Placeholder card styling */
+.testimonial-card.contact-card {
+  background: #fff;
+}
+
+.testimonial-card.contact-card .btn-dark {
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.testimonial-card:last-child .testimonial-author-img {
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #0077b5;
+}
+
+
+.testimonial-card .btn-dark {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.testimonial-card .btn-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.testimonials-nav-buttons {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.nav-button {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.nav-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+
+/* Responsive */
+@media (max-width: 767px) {
+  .testimonials-section {
+    padding: 60px 0;
+  }
+  
+  .testimonials-wrapper {
+    min-height: 600px; /* More height for mobile */
+  }
+  
+  .testimonial-card {
+    min-height: 600px;
+  }
+  
+  .testimonial-author {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .testimonial-author-img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .linkedin-link {
+    margin-left: 0;
+  }
+  
+  .testimonial-author-info h3 {
+    font-size: 1.3rem;
+  }
+  
+  .testimonial-text p {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  /* Add swipe indicator for mobile */
+  .testimonials-wrapper::after {
+    content: "Swipe left or right";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
   }
 }
