@@ -26,7 +26,6 @@ if (slider) {  // Only run if carousel exists
     const x = e.pageX - slider.offsetLeft;
     const walk = (x - startX) * 3; //scroll-fast
     slider.scrollLeft = scrollLeft - walk;
-    console.log(walk);
   });
 }
 
