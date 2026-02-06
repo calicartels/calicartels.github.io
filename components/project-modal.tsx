@@ -54,8 +54,8 @@ export function ProjectModal({
             if (e.target === backdropRef.current) handleClose()
           }}
         >
-          {/* Backdrop blur */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={handleClose} />
+          {/* Backdrop blur - pointer-events-none so it doesn't block the close button */}
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-none" />
 
           {/* iOS-style sheet */}
           <motion.div

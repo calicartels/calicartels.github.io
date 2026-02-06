@@ -1,7 +1,7 @@
 import { EyeCursor } from "@/components/eye-cursor"
 import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
-
+import { QuoteSection } from "@/components/quote-section"
 import { ExperienceSection } from "@/components/experience-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
@@ -15,6 +15,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <QuoteSection />
         <ExperienceSection />
         <ProjectsSection />
         <TestimonialsSection />

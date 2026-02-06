@@ -107,7 +107,7 @@ const projects: FeaturedProject[] = [
     ],
     skills: ["Python", "Flutter", "Flask", "Computer Vision", "Deep Learning"],
     githubUrl: "https://github.com/calicartels/blind.ai",
-    image: "/assets/image/Blind_Ai Logo 2.png",
+    image: "/assets/image/blind-ai.jpg",
     imageAlt: "Blind.ai app logo",
     summary:
       "A Flutter mobile app empowering visually impaired users with AI-powered features: real-time object detection via YOLOv5, currency recognition, text-to-speech OCR with Pytesseract, and an SOS emergency system through Twilio. The Flask backend handles inference and is deployed on PythonAnywhere.",
@@ -129,7 +129,7 @@ const projects: FeaturedProject[] = [
     ],
     skills: ["Python", "Streamlit", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/LLMTalk",
-    image: "/assets/image/LLMtalk Logo.jpeg",
+    image: "/assets/image/llmtalk.jpg",
     imageAlt: "LLMTalk logo",
     summary:
       "A conversational AI app built with Streamlit and LangChain that lets you chat with audio files or YouTube videos. Audio is transcribed via AssemblyAI, embedded into ChromaDB as vectors, and GPT-4 answers questions against the transcript context using retrieval-augmented generation.",
