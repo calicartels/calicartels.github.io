@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
 import type { Skill } from "@/components/skill-filter"
+import type { ProjectDetail } from "@/components/project-modal"
 import { cn } from "@/lib/utils"
 
 type OtherProject = {
@@ -12,6 +13,8 @@ type OtherProject = {
   image: string
   imageAlt: string
   githubUrl: string
+  summary: string
+  tags: string[]
 }
 
 const otherProjects: OtherProject[] = [
@@ -23,6 +26,9 @@ const otherProjects: OtherProject[] = [
     image: "/assets/image/streamsphere.jpeg",
     imageAlt: "Stream Sphere app",
     githubUrl: "https://github.com/calicartels/StreamSphere",
+    tags: ["React", "Node.js", "Express", "MongoDB"],
+    summary:
+      "A full-stack Netflix-style video streaming platform built with the MERN stack. Features dual admin/user panels, content upload and management, user authentication, and a responsive video player. The admin dashboard handles content cataloging while users enjoy a familiar browsing and streaming experience.",
   },
   {
     title: "QR Code Generator",
@@ -32,6 +38,9 @@ const otherProjects: OtherProject[] = [
     image: "/assets/image/Rickrolling_QR_code.png",
     imageAlt: "QR Code Generator",
     githubUrl: "https://github.com/calicartels/QR-code-generator",
+    tags: ["Python", "Flask", "qrcode", "Pillow"],
+    summary:
+      "A Python Flask web app that generates QR codes for multiple data formats including URLs, emails, SMS, and cryptocurrency addresses. Uses the qrcode library with Pillow for image generation, providing a clean interface for quick data transfer through scannable codes.",
   },
   {
     title: "Productivity App",
@@ -41,6 +50,9 @@ const otherProjects: OtherProject[] = [
     image: "/assets/image/productivity app.jpg",
     imageAlt: "Productivity App",
     githubUrl: "https://github.com/calicartels/Productivity-app",
+    tags: ["Flutter", "Dart", "SQLite"],
+    summary:
+      "A cross-platform mobile productivity app built with Flutter featuring task management, daily goal tracking, and organizational tools. Uses SQLite for local data persistence and Flutter's Material Design widgets for a polished, intuitive UI that helps users streamline their daily workflow.",
   },
   {
     title: "MeeTUp",
@@ -50,6 +62,9 @@ const otherProjects: OtherProject[] = [
     image: "/assets/image/Meetup.jpg",
     imageAlt: "MeeTUp app",
     githubUrl: "https://github.com/calicartels/MeeTUp",
+    tags: ["React", "Node.js", "WebRTC", "Socket.io"],
+    summary:
+      "A peer-to-peer video calling application built with React and WebRTC for real-time communication. Uses Socket.io for signaling, enabling direct browser-to-browser video/audio streams. Features room creation, screen sharing, and a responsive interface for seamless video conferencing.",
   },
 ]
 
@@ -60,6 +75,8 @@ type ShowcaseProject = {
   image: string
   imageAlt: string
   link: string
+  summary: string
+  tags: string[]
 }
 
 const showcaseProjects: ShowcaseProject[] = [
@@ -71,6 +88,9 @@ const showcaseProjects: ShowcaseProject[] = [
     image: "/assets/image/AutoViz.jpeg",
     imageAlt: "AutoVizML",
     link: "https://github.com/calicartels/AutoVizML",
+    tags: ["Python", "Streamlit", "Scikit-learn", "Plotly", "Pandas"],
+    summary:
+      "An automated ML and EDA tool built with Streamlit that lets users upload datasets and instantly perform data cleaning, exploratory analysis, model comparison, and interactive Plotly visualizations -- all with a single click. Supports multiple Scikit-learn classifiers and regressors with automatic hyperparameter tuning.",
   },
   {
     title: "Where Data meets India's innovation",
@@ -80,6 +100,9 @@ const showcaseProjects: ShowcaseProject[] = [
     image: "/assets/image/Startup.jpg",
     imageAlt: "Indian Startup EDA",
     link: "https://github.com/calicartels/Indian-Startup-EDA",
+    tags: ["Python", "Pandas", "Matplotlib", "Seaborn", "Jupyter"],
+    summary:
+      "An exploratory data analysis project dissecting the Indian startup ecosystem using Pandas, Matplotlib, and Seaborn. Uncovers funding trends, top investors, sector-wise growth, and geographical distribution of startups through detailed visualizations and statistical analysis in Jupyter notebooks.",
   },
   {
     title: "Stock Price Dashboard",
@@ -89,11 +112,44 @@ const showcaseProjects: ShowcaseProject[] = [
     image: "/assets/image/Stock.jpeg",
     imageAlt: "Stock Price Dashboard",
     link: "https://github.com/calicartels/Plotly-Dash-based-Stock-Market-Analysis",
+    tags: ["Python", "Plotly Dash", "yfinance", "Pandas"],
+    summary:
+      "An interactive stock market analysis dashboard built with Plotly Dash that pulls real-time data via yfinance. Features candlestick charts, moving averages, volume analysis, and technical indicators with a responsive layout that lets users compare multiple tickers side by side.",
   },
 ]
 
-export function OtherProjects({ activeSkills }: { activeSkills: Skill[] }) {
+export function OtherProjects({
+  activeSkills,
+  onProjectClick,
+}: {
+  activeSkills: Skill[]
+  onProjectClick: (project: ProjectDetail) => void
+}) {
   const showAll = activeSkills.includes("All")
+
+  const handleOtherClick = (project: OtherProject) => {
+    onProjectClick({
+      title: project.title,
+      descriptions: [project.description],
+      tags: project.tags,
+      image: project.image,
+      imageAlt: project.imageAlt,
+      githubUrl: project.githubUrl,
+      summary: project.summary,
+    })
+  }
+
+  const handleShowcaseClick = (project: ShowcaseProject) => {
+    onProjectClick({
+      title: project.title,
+      descriptions: [project.description],
+      tags: project.tags,
+      image: project.image,
+      imageAlt: project.imageAlt,
+      githubUrl: project.link,
+      summary: project.summary,
+    })
+  }
 
   return (
     <>
@@ -118,34 +174,31 @@ export function OtherProjects({ activeSkills }: { activeSkills: Skill[] }) {
                     !isMatch && "opacity-20 scale-[0.97] pointer-events-none"
                   )}
                 >
-                  <CardBody className="relative group/card border border-border rounded-xl p-4 bg-background h-auto w-full">
+                  <CardBody
+                    className="relative group/card border border-border rounded-xl p-4 bg-background h-auto w-full cursor-pointer"
+                    onClick={() => handleOtherClick(project)}
+                  >
                     {/* Image */}
                     <CardItem translateZ="80" className="w-full">
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <div className="rounded-lg overflow-hidden border border-border">
-                          <div className="flex justify-end items-center px-3 py-1.5 bg-secondary/50 border-b border-border">
-                            <div className="flex gap-1.5">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#ff5f56]" />
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#ffbd2e]" />
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#27c93f]" />
-                            </div>
-                          </div>
-                          <div className="h-[140px] overflow-hidden bg-secondary">
-                            <Image
-                              src={project.image}
-                              alt={project.imageAlt}
-                              width={300}
-                              height={140}
-                              className="object-cover"
-                              style={{ width: "100%", height: "100%" }}
-                            />
+                      <div className="rounded-lg overflow-hidden border border-border">
+                        <div className="flex justify-end items-center px-3 py-1.5 bg-secondary/50 border-b border-border">
+                          <div className="flex gap-1.5">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#ff5f56]" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#ffbd2e]" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#27c93f]" />
                           </div>
                         </div>
-                      </a>
+                        <div className="h-[140px] overflow-hidden bg-secondary">
+                          <Image
+                            src={project.image}
+                            alt={project.imageAlt}
+                            width={300}
+                            height={140}
+                            className="object-cover"
+                            style={{ width: "100%", height: "100%" }}
+                          />
+                        </div>
+                      </div>
                     </CardItem>
 
                     {/* Title */}
@@ -162,17 +215,11 @@ export function OtherProjects({ activeSkills }: { activeSkills: Skill[] }) {
                       </p>
                     </CardItem>
 
-                    {/* Link */}
-                    <CardItem
-                      as="a"
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      translateZ="100"
-                      className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-foreground text-background"
-                    >
-                      View Project
-                      <i className="fa-solid fa-arrow-right-long text-[10px]" />
+                    {/* Tap hint */}
+                    <CardItem translateZ="30" className="w-full mt-2">
+                      <p className="text-[10px] text-muted-foreground italic">
+                        Tap to view details
+                      </p>
                     </CardItem>
                   </CardBody>
                 </CardContainer>
@@ -199,27 +246,24 @@ export function OtherProjects({ activeSkills }: { activeSkills: Skill[] }) {
                     !isMatch && "opacity-20 scale-[0.97] pointer-events-none"
                   )}
                 >
-                  <CardBody className="relative group/card border border-border rounded-xl p-5 bg-card h-auto w-full">
+                  <CardBody
+                    className="relative group/card border border-border rounded-xl p-5 bg-card h-auto w-full cursor-pointer"
+                    onClick={() => handleShowcaseClick(project)}
+                  >
                     {/* Image */}
                     <CardItem
                       translateZ="100"
                       rotateX={5}
                       className="w-full"
                     >
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Image
-                          src={project.image}
-                          alt={project.imageAlt}
-                          width={550}
-                          height={350}
-                          className="rounded-lg shadow-sm object-cover"
-                          style={{ width: "100%", height: "200px" }}
-                        />
-                      </a>
+                      <Image
+                        src={project.image}
+                        alt={project.imageAlt}
+                        width={550}
+                        height={350}
+                        className="rounded-lg shadow-sm object-cover"
+                        style={{ width: "100%", height: "200px" }}
+                      />
                     </CardItem>
 
                     {/* Title */}
@@ -236,17 +280,11 @@ export function OtherProjects({ activeSkills }: { activeSkills: Skill[] }) {
                       </p>
                     </CardItem>
 
-                    {/* Link */}
-                    <CardItem
-                      as="a"
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      translateZ="120"
-                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-foreground text-background"
-                    >
-                      View Details
-                      <i className="fa-solid fa-arrow-right-long text-xs" />
+                    {/* Tap hint */}
+                    <CardItem translateZ="30" className="w-full mt-3">
+                      <p className="text-xs text-muted-foreground italic">
+                        Tap to view details
+                      </p>
                     </CardItem>
                   </CardBody>
                 </CardContainer>

@@ -77,9 +77,11 @@ export const CardContainer = ({
 export const CardBody = ({
   children,
   className,
+  onClick,
 }: {
   children: React.ReactNode
   className?: string
+  onClick?: (e: React.MouseEvent) => void
 }) => {
   return (
     <div
@@ -87,6 +89,7 @@ export const CardBody = ({
         "h-96 w-96 [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d]",
         className
       )}
+      onClick={onClick}
     >
       {children}
     </div>

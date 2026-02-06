@@ -1,12 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { SkillFilter, type Skill } from "@/components/skill-filter"
 import { FeaturedProjects } from "@/components/featured-projects"
 import { OtherProjects } from "@/components/other-projects"
+import { ProjectModal, type ProjectDetail } from "@/components/project-modal"
 
 export function ProjectsSection() {
   const [activeSkills, setActiveSkills] = useState<Skill[]>(["All"])
+  const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(null)
+
+  const handleProjectClick = useCallback((project: ProjectDetail) => {
+    setSelectedProject(project)
+  }, [])
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedProject(null)
+  }, [])
 
   return (
     <div>
@@ -23,8 +33,10 @@ export function ProjectsSection() {
         </div>
       </section>
 
-      <FeaturedProjects activeSkills={activeSkills} />
-      <OtherProjects activeSkills={activeSkills} />
+      <FeaturedProjects activeSkills={activeSkills} onProjectClick={handleProjectClick} />
+      <OtherProjects activeSkills={activeSkills} onProjectClick={handleProjectClick} />
+
+      <ProjectModal project={selectedProject} onClose={handleCloseModal} />
     </div>
   )
 }
