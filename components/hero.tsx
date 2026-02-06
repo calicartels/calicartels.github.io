@@ -107,7 +107,7 @@ export function Hero() {
               alt="Lightbulb illustration"
               width={300}
               height={300}
-              style={{ width: "300px", height: "auto" }}
+              className="w-[300px] h-auto"
               unoptimized
               priority
             />
