@@ -94,6 +94,7 @@ export function Hero() {
               height={300}
               style={{ width: "300px", height: "auto" }}
               unoptimized
+              priority
             />
           </div>
         </div>
