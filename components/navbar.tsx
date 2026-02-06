@@ -65,10 +65,14 @@ function GlowMenu() {
             href={link.href}
             target={link.external ? "_blank" : undefined}
             rel={link.external ? "noopener noreferrer" : undefined}
-            className="relative z-10 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground rounded-full"
+            className="relative z-10 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground rounded-full cursor-pointer"
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
-            onClick={() => !link.external && setActiveIndex(i)}
+            {...(link.external
+              ? {}
+              : {
+                  onClick: () => setActiveIndex(i),
+                })}
           >
             {link.label}
           </a>
