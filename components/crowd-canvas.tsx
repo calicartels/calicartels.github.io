@@ -98,8 +98,8 @@ export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
 
     const resetPeep = ({ stage: s, peep }: { stage: typeof stage; peep: Peep }) => {
       const direction = Math.random() > 0.5 ? 1 : -1
-      const offsetY = 100 - 250 * gsap.parseEase("power2.in")(Math.random())
-      const startY = s.height - peep.height + offsetY
+      const offsetY = 60 - 180 * gsap.parseEase("power2.in")(Math.random())
+      const startY = s.height - peep.height * 1.15 + offsetY
       let startX: number
       let endX: number
 

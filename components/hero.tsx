@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import Image from "next/image"
+/* eslint-disable @next/next/no-img-element */
 import DecryptedText from "@/components/decrypted-text"
 
 export function Hero() {
@@ -77,9 +77,8 @@ export function Hero() {
             </h2>
 
             <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/70 max-w-xl text-pretty">
-              I am currently pursuing my MEng in Artificial Intelligence for
-              Product Innovation at Duke University. I&apos;m passionate in the
-              disciplines of Data Science, Artificial Intelligence, &amp;
+              MEng in AI for Product Innovation from Duke University.
+              Passionate about Data Science, Artificial Intelligence, &amp;
               Computer Vision.
             </p>
 
@@ -102,14 +101,12 @@ export function Hero() {
           </div>
 
           <div className="lg:w-2/5 hidden lg:flex items-center justify-center">
-            <Image
+            <img
               src="/assets/image/absurd_lightbuld.gif"
               alt="Lightbulb illustration"
               width={300}
               height={300}
               className="w-[300px] h-auto"
-              unoptimized
-              priority
             />
           </div>
         </div>

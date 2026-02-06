@@ -4,6 +4,7 @@ import { Hero } from "@/components/hero"
 import { ExperienceSection } from "@/components/experience-section"
 import { AboutSection } from "@/components/about-section"
 import { ProjectsSection } from "@/components/projects-section"
+import { PersonalIntro } from "@/components/personal-intro"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { CrowdSection } from "@/components/crowd-section"
 import { Footer } from "@/components/footer"
@@ -18,6 +19,7 @@ export default function Home() {
         <ExperienceSection />
         <AboutSection />
         <ProjectsSection />
+        <PersonalIntro />
         <TestimonialsSection />
         <CrowdSection />
       </main>
