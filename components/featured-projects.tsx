@@ -239,6 +239,7 @@ export function FeaturedProjects({
                           width={550}
                           height={180}
                           className="object-cover w-full h-full"
+                          style={{ width: "100%", height: "100%" }}
                         />
                       </div>
                     </div>

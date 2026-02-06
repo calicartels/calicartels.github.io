@@ -122,7 +122,8 @@ export function ProjectModal({
                     alt={project.imageAlt}
                     width={500}
                     height={280}
-className="object-cover w-full h-[200px]"
+                    className="object-cover w-full h-[200px]"
+                    style={{ width: "100%", height: "200px" }}
                   />
                 </div>
 
