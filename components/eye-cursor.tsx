@@ -64,8 +64,8 @@ export function EyeCursor() {
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 z-[9999] pointer-events-none hidden md:block"
-      style={{ willChange: "transform" }}
+      className="fixed top-0 left-0 pointer-events-none hidden md:block"
+      style={{ willChange: "transform", zIndex: 100001 }}
     >
       {/* Eye outer - white of the eye */}
       <div
