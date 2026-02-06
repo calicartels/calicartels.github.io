@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
+import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react"
 
 type TimelineItem = {
   date: string
@@ -88,6 +89,48 @@ const research: TimelineItem[] = [
   },
 ]
 
+function GlowLine({ progress }: { progress: number }) {
+  return (
+    <div className="absolute left-1/2 -translate-x-[0.5px] top-0 bottom-0 w-[2px]">
+      {/* Base line */}
+      <div className="absolute inset-0 bg-border/40" />
+      {/* Glow progress line */}
+      <div
+        className="absolute top-0 left-0 right-0 transition-[height] duration-300 ease-out"
+        style={{ height: `${progress}%` }}
+      >
+        {/* Core bright line */}
+        <div className="absolute inset-0 bg-foreground" />
+        {/* Inner glow */}
+        <div className="absolute inset-0 w-[6px] -left-[2px] bg-foreground/40 blur-[3px]" />
+        {/* Outer glow */}
+        <div className="absolute inset-0 w-[14px] -left-[6px] bg-foreground/20 blur-[8px]" />
+        {/* Tip glow ball */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 rounded-full bg-foreground/60 blur-[6px]"
+        />
+      </div>
+    </div>
+  )
+}
+
+function TimelineNode({ index, isVisible }: { index: number; isVisible: boolean }) {
+  return (
+    <div className="hidden md:flex flex-col items-center z-10 absolute left-1/2 -translate-x-1/2 top-6">
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={isVisible ? { scale: 1 } : { scale: 0 }}
+        transition={{ delay: index * 0.08 + 0.1, duration: 0.4, type: "spring", stiffness: 260, damping: 20 }}
+        className="relative"
+      >
+        {/* Glow behind node */}
+        <div className="absolute inset-0 w-5 h-5 -left-[3px] -top-[3px] rounded-full bg-foreground/30 blur-[4px]" />
+        <div className="w-3.5 h-3.5 rounded-full border-2 border-foreground bg-background relative z-10" />
+      </motion.div>
+    </div>
+  )
+}
+
 function TimelineCard({
   item,
   index,
@@ -98,26 +141,31 @@ function TimelineCard({
   isLeft: boolean
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const isInView = useInView(cardRef, { once: true, margin: "-60px" })
+  const [isHovered, setIsHovered] = useState(false)
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true)
-          }
-        })
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -50px 0px" }
-    )
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
 
-    const el = cardRef.current
-    if (el) observer.observe(el)
-    return () => {
-      if (el) observer.unobserve(el)
-    }
-  }, [])
+  const smoothX = useSpring(mouseX, { stiffness: 300, damping: 30 })
+  const smoothY = useSpring(mouseY, { stiffness: 300, damping: 30 })
+
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [4, -4])
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-4, 4])
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    mouseX.set(x)
+    mouseY.set(y)
+  }, [mouseX, mouseY])
+
+  const handleMouseLeave = useCallback(() => {
+    mouseX.set(0)
+    mouseY.set(0)
+    setIsHovered(false)
+  }, [mouseX, mouseY])
 
   return (
     <div
@@ -126,134 +174,188 @@ function TimelineCard({
         isLeft ? "md:flex-row" : "md:flex-row-reverse"
       }`}
     >
-      {/* Card content - on desktop it alternates sides */}
-      <div
-        className={`flex-1 md:w-[calc(50%-24px)] transition-all duration-700 ease-out ${
-          isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
-        style={{ transitionDelay: `${index * 80}ms` }}
-      >
-        <div
-          className={`rounded-xl border border-border/60 bg-background p-5 md:p-6 shadow-sm hover:shadow-md hover:border-foreground/10 transition-all duration-300 ${
+      {/* Card content */}
+      <div className={`flex-1 md:w-[calc(50%-24px)]`}>
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.97 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{
+            delay: index * 0.1,
+            duration: 0.6,
+            ease: [0.23, 1, 0.32, 1],
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            rotateX: isHovered ? rotateX : 0,
+            rotateY: isHovered ? rotateY : 0,
+            transformPerspective: 800,
+          }}
+          className={`rounded-xl border border-border/60 bg-background p-5 md:p-6 transition-shadow duration-300 cursor-default ${
             isLeft ? "md:mr-12" : "md:ml-12"
-          }`}
+          } ${isHovered ? "shadow-lg shadow-foreground/5 border-foreground/15" : "shadow-sm"}`}
         >
-          <span className="inline-block text-xs font-medium text-muted-foreground bg-secondary/80 px-3 py-1 rounded-full mb-3">
-            {item.date}
-          </span>
-          <h3 className="text-base font-semibold text-foreground mb-1">
-            {item.title}
-          </h3>
-          {item.subtitle && (
-            <p className="text-sm text-muted-foreground mb-3">
-              {item.subtitle}
-            </p>
-          )}
-          <ul className="space-y-2">
-            {item.details.map((detail, i) => (
-              <li
-                key={i}
-                className="flex gap-2 text-sm text-foreground/75 leading-relaxed"
+          {/* Hover spotlight effect */}
+          <motion.div
+            className="absolute inset-0 rounded-xl pointer-events-none overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div
+              className="absolute w-[200px] h-[200px] rounded-full"
+              style={{
+                background: "radial-gradient(circle, hsl(var(--foreground) / 0.06) 0%, transparent 70%)",
+                x: useTransform(smoothX, [-0.5, 0.5], [-100, 300]),
+                y: useTransform(smoothY, [-0.5, 0.5], [-100, 200]),
+              }}
+            />
+          </motion.div>
+
+          <div className="relative z-10">
+            <motion.span
+              className="inline-block text-xs font-medium text-muted-foreground bg-secondary/80 px-3 py-1 rounded-full mb-3"
+              initial={{ opacity: 0, x: -10 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: index * 0.1 + 0.15, duration: 0.4 }}
+            >
+              {item.date}
+            </motion.span>
+            <motion.h3
+              className="text-base font-semibold text-foreground mb-1"
+              initial={{ opacity: 0, y: 8 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: index * 0.1 + 0.2, duration: 0.4 }}
+            >
+              {item.title}
+            </motion.h3>
+            {item.subtitle && (
+              <motion.p
+                className="text-sm text-muted-foreground mb-3"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ delay: index * 0.1 + 0.25, duration: 0.4 }}
               >
-                <span className="text-muted-foreground mt-1 flex-shrink-0 text-xs">
-                  {"\u25CF"}
-                </span>
-                <span>{detail}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                {item.subtitle}
+              </motion.p>
+            )}
+            <ul className="space-y-2">
+              {item.details.map((detail, i) => (
+                <motion.li
+                  key={i}
+                  className="flex gap-2 text-sm text-foreground/75 leading-relaxed"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: index * 0.1 + 0.3 + i * 0.08, duration: 0.4 }}
+                >
+                  <span className="text-muted-foreground mt-1 flex-shrink-0 text-xs">
+                    {"\u25CF"}
+                  </span>
+                  <span>{detail}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Center node - visible on desktop only */}
-      <div className="hidden md:flex flex-col items-center z-10 absolute left-1/2 -translate-x-1/2 top-6">
-        <div
-          className={`w-3.5 h-3.5 rounded-full border-2 border-foreground bg-background transition-all duration-500 ${
-            isVisible ? "scale-100" : "scale-0"
-          }`}
-          style={{ transitionDelay: `${index * 80 + 100}ms` }}
-        />
-      </div>
+      {/* Center node */}
+      <TimelineNode index={index} isVisible={isInView} />
 
-      {/* Empty spacer for opposite side - desktop only */}
+      {/* Spacer */}
       <div className="hidden md:block flex-1 md:w-[calc(50%-24px)]" />
     </div>
   )
 }
 
 export function ExperienceSection() {
-  const [activeTab, setActiveTab] = useState<"internships" | "research">(
-    "internships"
-  )
-  const lineRef = useRef<HTMLDivElement>(null)
-  const [lineHeight, setLineHeight] = useState(0)
+  const [activeTab, setActiveTab] = useState<"internships" | "research">("internships")
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   const data = activeTab === "internships" ? internships : research
 
   useEffect(() => {
-    setLineHeight(0)
-    const timer = setTimeout(() => {
-      if (lineRef.current) {
-        setLineHeight(lineRef.current.scrollHeight)
-      }
-    }, 100)
-    return () => clearTimeout(timer)
+    setScrollProgress(0)
+
+    const handleScroll = () => {
+      if (!timelineRef.current) return
+      const rect = timelineRef.current.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const totalHeight = rect.height
+
+      // Calculate how far we've scrolled through the timeline
+      const scrolled = windowHeight - rect.top
+      const progress = Math.min(100, Math.max(0, (scrolled / (totalHeight + windowHeight * 0.3)) * 100))
+      setScrollProgress(progress)
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [activeTab])
 
   return (
     <section id="experience" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-2 text-balance">
+        <motion.h2
+          className="text-3xl md:text-4xl font-normal text-foreground mb-2 text-balance"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
           My Experience
-        </h2>
-        <div className="w-12 h-[2px] bg-foreground mb-10" />
+        </motion.h2>
+        <motion.div
+          className="w-12 h-[2px] bg-foreground mb-10"
+          initial={{ width: 0 }}
+          whileInView={{ width: 48 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        />
 
         {/* Tabs */}
         <div className="flex gap-0 mb-12 border-b border-border relative">
-          <button
-            onClick={() => setActiveTab("internships")}
-            className={`px-6 py-3 text-sm font-medium transition-colors relative ${
-              activeTab === "internships"
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Internships
-            {activeTab === "internships" && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground transition-all" />
-            )}
-          </button>
-          <button
-            onClick={() => setActiveTab("research")}
-            className={`px-6 py-3 text-sm font-medium transition-colors relative ${
-              activeTab === "research"
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Research
-            {activeTab === "research" && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground transition-all" />
-            )}
-          </button>
+          {(["internships", "research"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-6 py-3 text-sm font-medium transition-colors relative capitalize ${
+                activeTab === tab
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {tab}
+              {activeTab === tab && (
+                <motion.span
+                  layoutId="experience-tab-underline"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
         </div>
 
         {/* Vertical Timeline */}
-        <div ref={lineRef} className="relative">
-          {/* Animated vertical line - desktop only */}
-          <div className="hidden md:block absolute left-1/2 -translate-x-[0.5px] top-0 w-[1px] bg-border overflow-hidden">
+        <div ref={timelineRef} className="relative">
+          {/* Glow line - desktop only */}
+          <div className="hidden md:block">
+            <GlowLine progress={scrollProgress} />
+          </div>
+
+          {/* Mobile line */}
+          <div className="md:hidden absolute left-[7px] top-0 bottom-0 w-[1px] bg-border">
             <div
-              className="w-full bg-foreground/30 transition-all duration-1000 ease-out"
-              style={{ height: lineHeight }}
+              className="w-full bg-foreground transition-[height] duration-300 ease-out"
+              style={{ height: `${scrollProgress}%` }}
             />
           </div>
 
-          {/* Mobile vertical line */}
-          <div className="md:hidden absolute left-[7px] top-0 bottom-0 w-[1px] bg-border" />
-
-          <div className="flex flex-col gap-10 md:gap-12">
+          <div className="flex flex-col gap-10 md:gap-14">
             {data.map((item, index) => (
               <div key={`${activeTab}-${index}`} className="relative">
                 {/* Mobile node */}
