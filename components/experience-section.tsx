@@ -89,31 +89,6 @@ const research: TimelineItem[] = [
   },
 ]
 
-function GlowLine({ progress }: { progress: number }) {
-  return (
-    <div className="absolute left-1/2 -translate-x-[0.5px] top-0 bottom-0 w-[2px]">
-      {/* Base line */}
-      <div className="absolute inset-0 bg-border/40" />
-      {/* Glow progress line */}
-      <div
-        className="absolute top-0 left-0 right-0 transition-[height] duration-300 ease-out"
-        style={{ height: `${progress}%` }}
-      >
-        {/* Core bright line */}
-        <div className="absolute inset-0 bg-foreground" />
-        {/* Inner glow */}
-        <div className="absolute inset-0 w-[6px] -left-[2px] bg-foreground/40 blur-[3px]" />
-        {/* Outer glow */}
-        <div className="absolute inset-0 w-[14px] -left-[6px] bg-foreground/20 blur-[8px]" />
-        {/* Tip glow ball */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 rounded-full bg-foreground/60 blur-[6px]"
-        />
-      </div>
-    </div>
-  )
-}
-
 function TimelineNode({ index, isVisible }: { index: number; isVisible: boolean }) {
   return (
     <div className="hidden md:flex flex-col items-center z-10 absolute left-1/2 -translate-x-1/2 top-6">
@@ -121,11 +96,8 @@ function TimelineNode({ index, isVisible }: { index: number; isVisible: boolean 
         initial={{ scale: 0 }}
         animate={isVisible ? { scale: 1 } : { scale: 0 }}
         transition={{ delay: index * 0.08 + 0.1, duration: 0.4, type: "spring", stiffness: 260, damping: 20 }}
-        className="relative"
       >
-        {/* Glow behind node */}
-        <div className="absolute inset-0 w-5 h-5 -left-[3px] -top-[3px] rounded-full bg-foreground/30 blur-[4px]" />
-        <div className="w-3.5 h-3.5 rounded-full border-2 border-foreground bg-background relative z-10" />
+        <div className="w-3.5 h-3.5 rounded-full border-2 border-foreground bg-background" />
       </motion.div>
     </div>
   )
@@ -285,7 +257,6 @@ export function ExperienceSection() {
       const windowHeight = window.innerHeight
       const totalHeight = rect.height
 
-      // Calculate how far we've scrolled through the timeline
       const scrolled = windowHeight - rect.top
       const progress = Math.min(100, Math.max(0, (scrolled / (totalHeight + windowHeight * 0.3)) * 100))
       setScrollProgress(progress)
@@ -342,9 +313,13 @@ export function ExperienceSection() {
 
         {/* Vertical Timeline */}
         <div ref={timelineRef} className="relative">
-          {/* Glow line - desktop only */}
-          <div className="hidden md:block">
-            <GlowLine progress={scrollProgress} />
+          {/* Simple black line - desktop only */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-[0.5px] top-0 bottom-0 w-[1px]">
+            <div className="absolute inset-0 bg-border" />
+            <div
+              className="absolute top-0 left-0 right-0 bg-foreground transition-[height] duration-300 ease-out"
+              style={{ height: `${scrollProgress}%` }}
+            />
           </div>
 
           {/* Mobile line */}

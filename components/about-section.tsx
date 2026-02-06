@@ -92,7 +92,7 @@ export function AboutSection() {
             </span>
           </div>
           <div>
-            <h3 className="text-sm font-semibold mb-1">2024 &mdash; Present</h3>
+            <h3 className="text-sm font-semibold mb-1">2024 &mdash; 2026</h3>
             <ul className="space-y-1 text-sm text-background/70">
               <li>Duke University</li>
               <li>MEng in AI for Product Innovation</li>
