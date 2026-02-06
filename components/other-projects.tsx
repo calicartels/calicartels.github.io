@@ -293,8 +293,7 @@ export function OtherProjects({
                             alt={project.imageAlt}
                             width={300}
                             height={140}
-                            className="object-cover"
-                            style={{ width: "100%", height: "100%" }}
+                            className="object-cover w-full h-full"
                           />
                         </div>
                       </div>
@@ -369,8 +368,7 @@ export function OtherProjects({
                             alt={project.imageAlt}
                             width={300}
                             height={120}
-                            className="object-cover"
-                            style={{ width: "100%", height: "100%" }}
+                            className="object-cover w-full h-full"
                           />
                         </div>
                       </div>

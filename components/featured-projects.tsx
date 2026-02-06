@@ -206,13 +206,12 @@ export function FeaturedProjects({
                         </div>
                       </div>
                       <div className="h-[180px] overflow-hidden bg-secondary">
-                        <Image
+                          <Image
                           src={project.image}
                           alt={project.imageAlt}
                           width={550}
                           height={180}
-                          className="object-cover"
-                          style={{ width: "100%", height: "100%" }}
+                          className="object-cover w-full h-full"
                         />
                       </div>
                     </div>
