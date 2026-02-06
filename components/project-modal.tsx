@@ -41,30 +41,33 @@ export function ProjectModal({
   return (
     <AnimatePresence>
       {project && (
-        <motion.div
-          ref={backdropRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 flex items-end sm:items-center justify-center"
-          style={{ zIndex: 99999 }}
-          onClick={(e) => {
-            if (e.target === backdropRef.current) handleClose()
-          }}
-        >
-          {/* Backdrop blur - pointer-events-none so it doesn't block the close button */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-none" />
+        <div style={{ position: "fixed", inset: 0, zIndex: 100000 }}>
+          {/* Backdrop - separate layer */}
+          <motion.div
+            ref={backdropRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+            style={{ zIndex: 1, pointerEvents: "auto" }}
+            onClick={handleClose}
+          />
 
-          {/* iOS-style sheet */}
+          {/* Modal content - above backdrop */}
           <motion.div
             initial={{ y: 60, opacity: 0, scale: 0.95 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 60, opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", damping: 28, stiffness: 350 }}
-            className="relative w-full max-w-lg mx-4 sm:mx-auto max-h-[85vh] overflow-hidden"
-            style={{ zIndex: 100000 }}
+            className="fixed inset-0 flex items-end sm:items-center justify-center"
+            style={{ zIndex: 2, pointerEvents: "none" }}
           >
+            <div
+              className="w-full max-w-lg mx-4 max-h-[85vh] overflow-hidden"
+              style={{ pointerEvents: "auto" }}
+              onClick={(e) => e.stopPropagation()}
+            >
             {/* Card container */}
             <div
               className="rounded-2xl overflow-hidden shadow-2xl"
@@ -81,7 +84,7 @@ export function ProjectModal({
               </div>
 
               {/* Header with close button */}
-              <div className="flex items-center justify-between px-5 pt-3 pb-2" style={{ position: "relative", zIndex: 100001 }}>
+              <div className="flex items-center justify-between px-5 pt-3 pb-2">
                 <div className="w-8" />
                 <h3
                   className="text-base font-semibold text-center truncate flex-1 px-2"
@@ -96,7 +99,7 @@ export function ProjectModal({
                     handleClose()
                   }}
                   className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-black/10 cursor-pointer"
-                  style={{ background: "rgba(0,0,0,0.08)", position: "relative", zIndex: 100002 }}
+                  style={{ background: "rgba(0,0,0,0.08)" }}
                   aria-label="Close"
                 >
                   <svg
@@ -195,11 +198,12 @@ export function ProjectModal({
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-80"
+                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-80 cursor-pointer"
                     style={{
                       background: "#007aff",
                       color: "#fff",
                     }}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <svg
                       width="16"
@@ -214,8 +218,9 @@ export function ProjectModal({
                 </div>
               </div>
             </div>
+            </div>
           </motion.div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   )

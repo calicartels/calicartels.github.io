@@ -52,10 +52,11 @@ function GlowMenu() {
           background:
             "radial-gradient(ellipse at center, hsl(var(--foreground) / 0.08) 0%, transparent 70%)",
           boxShadow: "0 0 20px 4px hsl(var(--foreground) / 0.06)",
+          zIndex: 1,
         }}
       />
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 relative z-20">
         {navLinks.map((link, i) => (
           <a
             key={link.label}
@@ -65,9 +66,10 @@ function GlowMenu() {
             href={link.href}
             target={link.external ? "_blank" : undefined}
             rel={link.external ? "noopener noreferrer" : undefined}
-            className="relative z-10 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground rounded-full cursor-pointer"
+            className="relative z-20 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground rounded-full cursor-pointer"
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
+            style={{ position: "relative", zIndex: 20 }}
             {...(link.external
               ? {}
               : {
