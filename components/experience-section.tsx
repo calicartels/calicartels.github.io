@@ -226,9 +226,23 @@ function TimelineCard({
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline decoration-foreground/30 underline-offset-2 hover:decoration-foreground transition-colors"
+                  className="inline-flex items-center gap-1.5 underline decoration-foreground/30 underline-offset-2 hover:decoration-foreground transition-colors group/link"
                 >
                   {item.title}
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="opacity-40 group-hover/link:opacity-100 transition-opacity flex-shrink-0 -translate-y-px"
+                  >
+                    <path d="M7 17L17 7" />
+                    <path d="M7 7h10v10" />
+                  </svg>
                 </a>
               ) : (
                 item.title

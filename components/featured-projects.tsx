@@ -16,7 +16,6 @@ type FeaturedProject = {
   image: string
   imageAlt: string
   summary: string
-  demoUrl?: string
 }
 
 const projects: FeaturedProject[] = [
@@ -67,11 +66,10 @@ const projects: FeaturedProject[] = [
       "GCP",
       "Tailwind",
     ],
-    skills: ["Python", "LLM", "Flask", "React"],
+    skills: ["Python", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/Agentic-Chatbot--Duke-Themed",
     image: "/assets/image/duke-chatbot.jpg",
     imageAlt: "Duke Agentic Chatbot",
-    demoUrl: "https://frontend-623186457718.us-central1.run.app",
     summary:
       "A dual-approach agentic chatbot for Duke University. The custom version uses Flask + LangGraph + Gemini with a Planning-Execution-Thinking-Evaluation workflow, querying Duke APIs and Google Custom Search. The second version uses Google Cloud Conversational Agents for rapid deployment. Both are cloud-hosted on GCP.",
   },
@@ -113,7 +111,7 @@ const projects: FeaturedProject[] = [
       "Integrates with ProAxion's sensor platform to provide real-time equipment status, predictive maintenance insights, and historical trend analysis through a conversational interface.",
     ],
     tags: ["Python", "LangChain", "OpenAI", "Flask", "IoT", "RAG"],
-    skills: ["Python", "LLM", "NLP", "Flask"],
+    skills: ["Python", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/Capstone---ProAxion-Chatbot",
     image: "/assets/image/proaxion.jpg",
     imageAlt: "ProAxion Industrial Chatbot",
@@ -135,7 +133,7 @@ const projects: FeaturedProject[] = [
       "YOLOv5",
       "Pytesseract",
     ],
-    skills: ["Python", "Flutter", "Flask", "Computer Vision", "Deep Learning"],
+    skills: ["Python", "Computer Vision", "Deep Learning"],
     githubUrl: "https://github.com/calicartels/blind.ai",
     image: "/assets/image/blind-ai.jpg",
     imageAlt: "Blind.ai app logo",
@@ -157,7 +155,7 @@ const projects: FeaturedProject[] = [
       "LangChain",
       "AssemblyAI",
     ],
-    skills: ["Python", "Streamlit", "LLM", "NLP"],
+    skills: ["Python", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/LLMTalk",
     image: "/assets/image/llmtalk.jpg",
     imageAlt: "LLMTalk logo",
@@ -185,7 +183,6 @@ export function FeaturedProjects({
       githubUrl: project.githubUrl,
       summary: project.summary,
       skills: project.skills,
-      demoUrl: project.demoUrl,
     })
   }
 

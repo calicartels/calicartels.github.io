@@ -15,7 +15,6 @@ type OtherProject = {
   githubUrl: string
   summary: string
   tags: string[]
-  demoUrl?: string
 }
 
 /* ── AI / ML Application Projects ── */
@@ -70,7 +69,19 @@ const aiProjects: OtherProject[] = [
     summary:
       "A deep learning pipeline for anemia detection from blood smear microscopy. Uses U-Net for cell segmentation and ResNet for classification of red blood cell morphology, enabling automated identification of anemia subtypes from slide images.",
   },
-
+  {
+    title: "XR Dyslexia-Friendly Text Detector",
+    description:
+      "An XR-based application that detects text in the environment and converts it to a dyslexia-friendly font (OpenDyslexic) using Google Cloud Vision API and Unity.",
+    skills: ["Computer Vision", "XR / AR"],
+    image: "/assets/image/xr-dyslexia.jpg",
+    imageAlt: "XR Dyslexia-Friendly Text Detector",
+    githubUrl:
+      "https://github.com/calicartels/XR-based-Dyslexia-Friendly-Text-Detector",
+    tags: ["C#", "Unity", "Google Vision API", "OpenDyslexic", "XR"],
+    summary:
+      "An augmented reality application that helps dyslexic users interact with text in their environment. Uses the Google Cloud Vision API to detect text from the smartphone camera feed and re-renders it in the OpenDyslexic font with animated effects, making everyday reading more accessible.",
+  },
 ]
 
 /* ── Notebook / Research Projects ── */
@@ -224,7 +235,6 @@ export function OtherProjects({
       githubUrl: project.githubUrl,
       summary: project.summary,
       skills: project.skills,
-      demoUrl: "demoUrl" in project ? project.demoUrl : undefined,
     })
   }
 

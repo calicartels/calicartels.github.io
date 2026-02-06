@@ -1,11 +1,11 @@
 import { EyeCursor } from "@/components/eye-cursor"
 import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
-import { QuoteSection } from "@/components/quote-section"
 import { ExperienceSection } from "@/components/experience-section"
+import { AboutSection } from "@/components/about-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
-import { AboutSection } from "@/components/about-section"
+import { CrowdSection } from "@/components/crowd-section"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
@@ -15,11 +15,11 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <QuoteSection />
-        <ProjectsSection />
-        <AboutSection />
         <ExperienceSection />
+        <AboutSection />
+        <ProjectsSection />
         <TestimonialsSection />
+        <CrowdSection />
       </main>
       <Footer />
     </>
