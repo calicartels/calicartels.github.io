@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Github", href: "https://github.com/calicartels", external: true },
   {
     label: "Linkedin",
-    href: "https://www.linkedin.com/in/vishnu-mukundan-tm-2a1112230/",
+    href: "https://www.linkedin.com/in/vishnu-mukundan-tm/",
     external: true,
   },
 ]

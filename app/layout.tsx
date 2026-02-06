@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Inter, Montserrat } from "next/font/google"
+import Script from "next/script"
 import "./globals.css"
 
 const inter = Inter({
@@ -32,6 +33,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${montserrat.variable} font-sans antialiased`}>
+        <Script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="f90c945e-3971-46df-ad9e-b49ca20998e1"
+          strategy="afterInteractive"
+        />
         {children}
       </body>
     </html>
