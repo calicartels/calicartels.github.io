@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
 
 type Project = {
   number: string
@@ -110,92 +111,114 @@ const projects: Project[] = [
   },
 ]
 
-function BrowserBar() {
-  return (
-    <div className="flex justify-end items-center px-3 py-2 bg-secondary/50 border-b border-border rounded-t-lg">
-      <div className="flex gap-1.5">
-        <div className="w-2 h-2 rounded-full bg-[#ff5f56]" />
-        <div className="w-2 h-2 rounded-full bg-[#ffbd2e]" />
-        <div className="w-2 h-2 rounded-full bg-[#27c93f]" />
-      </div>
-    </div>
-  )
-}
-
 export function FeaturedProjects() {
   return (
     <section id="featured-projects" className="py-24 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-16 text-balance">
           {"Things I've Developed"}
         </h2>
 
-        <div className="space-y-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
           {projects.map((project) => (
-            <div
+            <CardContainer
               key={project.number}
-              className="flex flex-col md:flex-row gap-8 items-start"
+              containerClassName="py-4"
             >
-              {/* Image */}
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="md:w-1/2 w-full flex-shrink-0"
-              >
-                <div className="rounded-lg overflow-hidden shadow-sm border border-border group">
-                  <BrowserBar />
-                  <div className="h-[220px] overflow-hidden bg-secondary">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      width={550}
-                      height={220}
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </div>
-                </div>
-              </a>
-
-              {/* Content */}
-              <div className="md:w-1/2">
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">
-                  {"project \u2014 "}
-                  {project.number}
-                </p>
-                <h3 className="text-xl font-normal text-foreground tracking-wide lowercase mb-3">
-                  {project.title}
-                </h3>
-                {project.descriptions.map((desc, i) => (
-                  <p
-                    key={i}
-                    className="text-sm text-foreground/80 leading-relaxed mb-2"
-                  >
-                    {desc}
+              <CardBody className="relative group/card border border-border rounded-xl p-6 bg-card h-auto w-full">
+                {/* Project Number */}
+                <CardItem
+                  translateZ="50"
+                  className="w-full"
+                >
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">
+                    {"project \u2014 "}
+                    {project.number}
                   </p>
-                ))}
-                <div className="flex flex-wrap gap-1.5 mt-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-medium px-3 py-1 rounded-full bg-secondary text-foreground"
+                  <h3 className="text-xl font-semibold text-foreground tracking-wide mb-3">
+                    {project.title}
+                  </h3>
+                </CardItem>
+
+                {/* Image - pops out on hover */}
+                <CardItem
+                  translateZ="100"
+                  rotateX={5}
+                  className="w-full mt-2"
+                >
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="rounded-lg overflow-hidden border border-border shadow-sm">
+                      <div className="flex justify-end items-center px-3 py-2 bg-secondary/50 border-b border-border">
+                        <div className="flex gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-[#ff5f56]" />
+                          <div className="w-2 h-2 rounded-full bg-[#ffbd2e]" />
+                          <div className="w-2 h-2 rounded-full bg-[#27c93f]" />
+                        </div>
+                      </div>
+                      <div className="h-[180px] overflow-hidden bg-secondary">
+                        <Image
+                          src={project.image}
+                          alt={project.imageAlt}
+                          width={550}
+                          height={180}
+                          className="object-cover"
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      </div>
+                    </div>
+                  </a>
+                </CardItem>
+
+                {/* Description - slightly elevated */}
+                <CardItem
+                  translateZ="60"
+                  className="w-full mt-4"
+                >
+                  {project.descriptions.map((desc, i) => (
+                    <p
+                      key={i}
+                      className="text-sm text-foreground/70 leading-relaxed mb-2 line-clamp-3"
                     >
-                      {tag}
-                    </span>
+                      {desc}
+                    </p>
                   ))}
-                </div>
-                <a
+                </CardItem>
+
+                {/* Tags - pop out more */}
+                <CardItem
+                  translateZ="80"
+                  className="w-full mt-3"
+                >
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs font-medium px-3 py-1 rounded-full bg-secondary text-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </CardItem>
+
+                {/* GitHub link - pops out the most */}
+                <CardItem
+                  as="a"
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-4 text-sm font-medium text-foreground relative after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-0 after:bg-foreground after:transition-all after:duration-300 hover:after:w-full hover:after:left-0"
+                  translateZ="120"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-foreground text-background"
                 >
-                  GitHub
+                  View on GitHub
                   <i className="fas fa-angle-right text-xs" />
-                </a>
-              </div>
-            </div>
+                </CardItem>
+              </CardBody>
+            </CardContainer>
           ))}
         </div>
       </div>

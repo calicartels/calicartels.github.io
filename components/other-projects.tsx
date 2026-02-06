@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
 
 type OtherProject = {
   title: string
@@ -70,107 +71,162 @@ const showcaseProjects = [
   },
 ]
 
-function BrowserBar() {
-  return (
-    <div className="flex justify-end items-center px-3 py-2 bg-secondary/50 border-b border-border rounded-t-lg">
-      <div className="flex gap-1.5">
-        <div className="w-2 h-2 rounded-full bg-[#ff5f56]" />
-        <div className="w-2 h-2 rounded-full bg-[#ffbd2e]" />
-        <div className="w-2 h-2 rounded-full bg-[#27c93f]" />
-      </div>
-    </div>
-  )
-}
-
 export function OtherProjects() {
   return (
     <>
       {/* Card Grid */}
       <section className="py-24 px-6 bg-secondary/30">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-16 text-balance">
             Other Projects
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {otherProjects.map((project) => (
-              <a
+              <CardContainer
                 key={project.title}
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
+                containerClassName="py-2"
               >
-                <div className="rounded-lg overflow-hidden shadow-sm border border-border bg-background">
-                  <BrowserBar />
-                  <div className="h-[160px] overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      width={300}
-                      height={160}
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-foreground">
-                    {project.title}
-                  </h3>
-                  <i className="fa-solid fa-arrow-right-long text-xs text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </div>
-              </a>
+                <CardBody className="relative group/card border border-border rounded-xl p-4 bg-background h-auto w-full">
+                  {/* Image */}
+                  <CardItem
+                    translateZ="80"
+                    className="w-full"
+                  >
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="rounded-lg overflow-hidden border border-border">
+                        <div className="flex justify-end items-center px-3 py-1.5 bg-secondary/50 border-b border-border">
+                          <div className="flex gap-1.5">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#ff5f56]" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#ffbd2e]" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#27c93f]" />
+                          </div>
+                        </div>
+                        <div className="h-[140px] overflow-hidden bg-secondary">
+                          <Image
+                            src={project.image}
+                            alt={project.imageAlt}
+                            width={300}
+                            height={140}
+                            className="object-cover"
+                            style={{ width: "100%", height: "100%" }}
+                          />
+                        </div>
+                      </div>
+                    </a>
+                  </CardItem>
+
+                  {/* Title */}
+                  <CardItem
+                    translateZ="50"
+                    className="w-full mt-3"
+                  >
+                    <h3 className="text-sm font-semibold text-foreground">
+                      {project.title}
+                    </h3>
+                  </CardItem>
+
+                  {/* Description */}
+                  <CardItem
+                    translateZ="40"
+                    className="w-full mt-1"
+                  >
+                    <p className="text-xs text-foreground/60 leading-relaxed line-clamp-2">
+                      {project.description}
+                    </p>
+                  </CardItem>
+
+                  {/* Link */}
+                  <CardItem
+                    as="a"
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    translateZ="100"
+                    className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-foreground text-background"
+                  >
+                    View Project
+                    <i className="fa-solid fa-arrow-right-long text-[10px]" />
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
             ))}
           </div>
         </div>
       </section>
 
       {/* Showcase Projects */}
-      <section className="py-24 px-6 hidden md:block">
-        <div className="max-w-5xl mx-auto space-y-24">
-          {showcaseProjects.map((project, index) => (
-            <div
-              key={project.title}
-              className={`flex flex-col md:flex-row gap-10 items-center ${
-                index % 2 === 1 ? "md:flex-row-reverse" : ""
-              }`}
-            >
-              <div className="md:w-1/2">
-                <h3 className="text-xl font-medium text-foreground mb-3">
-                  {project.title}
-                </h3>
-                <p className="text-sm text-foreground/80 leading-relaxed mb-4">
-                  {project.description}
-                </p>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-foreground relative after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-0 after:bg-foreground after:transition-all after:duration-300 hover:after:w-full hover:after:left-0"
-                >
-                  View Details
-                  <i className="fa-solid fa-arrow-right-long text-xs" />
-                </a>
-              </div>
-              <div className="md:w-1/2">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Image
-                    src={project.image}
-                    alt={project.imageAlt}
-                    width={550}
-                    height={350}
-                    className="rounded-lg shadow-sm"
-                    style={{ width: "100%", height: "auto" }}
-                  />
-                </a>
-              </div>
-            </div>
-          ))}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {showcaseProjects.map((project) => (
+              <CardContainer
+                key={project.title}
+                containerClassName="py-2"
+              >
+                <CardBody className="relative group/card border border-border rounded-xl p-5 bg-card h-auto w-full">
+                  {/* Image */}
+                  <CardItem
+                    translateZ="100"
+                    rotateX={5}
+                    className="w-full"
+                  >
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Image
+                        src={project.image}
+                        alt={project.imageAlt}
+                        width={550}
+                        height={350}
+                        className="rounded-lg shadow-sm object-cover"
+                        style={{ width: "100%", height: "200px" }}
+                      />
+                    </a>
+                  </CardItem>
+
+                  {/* Title */}
+                  <CardItem
+                    translateZ="60"
+                    className="w-full mt-4"
+                  >
+                    <h3 className="text-base font-semibold text-foreground">
+                      {project.title}
+                    </h3>
+                  </CardItem>
+
+                  {/* Description */}
+                  <CardItem
+                    translateZ="40"
+                    className="w-full mt-2"
+                  >
+                    <p className="text-sm text-foreground/70 leading-relaxed">
+                      {project.description}
+                    </p>
+                  </CardItem>
+
+                  {/* Link */}
+                  <CardItem
+                    as="a"
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    translateZ="120"
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-foreground text-background"
+                  >
+                    View Details
+                    <i className="fa-solid fa-arrow-right-long text-xs" />
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
+            ))}
+          </div>
         </div>
       </section>
     </>
