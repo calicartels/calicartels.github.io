@@ -92,7 +92,7 @@ export function Hero() {
               alt="Lightbulb illustration"
               width={300}
               height={300}
-              className="w-[300px] h-auto"
+              style={{ width: "300px", height: "auto" }}
               unoptimized
             />
           </div>
