@@ -6,19 +6,16 @@ import { cn } from "@/lib/utils"
 const skills = [
   "All",
   "Python",
-  "Flutter",
   "Machine Learning",
   "Deep Learning",
+  "LLM",
   "NLP",
   "Computer Vision",
+  "Data Science",
   "Flask",
   "Streamlit",
   "React",
-  "Node.js",
-  "LLM",
-  "Data Science",
-  "Dash",
-  "WebRTC",
+  "Flutter",
 ] as const
 
 export type Skill = (typeof skills)[number]
