@@ -58,26 +58,36 @@ export function AboutSection() {
             <h3 className="text-sm font-semibold mb-3">Languages</h3>
             <ul className="space-y-1 text-sm text-background/70">
               <li>Python</li>
-              <li>Javascript</li>
+              <li>JavaScript</li>
+              <li>SQL</li>
               <li>HTML</li>
-              <li>CSS</li>
-              <li>C#</li>
+              <li>Excel</li>
+              <li>Statistics</li>
             </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold mb-3">Frameworks</h3>
             <ul className="space-y-1 text-sm text-background/70">
-              <li>TensorFlow</li>
               <li>PyTorch</li>
+              <li>TensorFlow</li>
               <li>Keras</li>
-              <li>Scikit-Learn</li>
+              <li>Scikit-learn</li>
+              <li>OpenCV</li>
+              <li>LangChain / LangGraph</li>
+              <li>HuggingFace</li>
+              <li>NumPy / Pandas</li>
+              <li>PySpark</li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold mb-3">Others</h3>
+            <h3 className="text-sm font-semibold mb-3">Platforms</h3>
             <ul className="space-y-1 text-sm text-background/70">
-              <li>Amazon Web Services</li>
+              <li>AWS</li>
+              <li>GCP</li>
               <li>Microsoft Azure</li>
+              <li>Docker</li>
+              <li>Kubernetes</li>
+              <li>Git</li>
             </ul>
           </div>
         </div>
@@ -92,10 +102,11 @@ export function AboutSection() {
             </span>
           </div>
           <div>
-            <h3 className="text-sm font-semibold mb-1">2024 &mdash; 2026</h3>
+            <h3 className="text-sm font-semibold mb-1">2024 &mdash; 2025</h3>
             <ul className="space-y-1 text-sm text-background/70">
               <li>Duke University</li>
               <li>MEng in AI for Product Innovation</li>
+              <li className="text-background/50">GPA: 3.72/4.0</li>
             </ul>
           </div>
           <div>

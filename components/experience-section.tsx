@@ -8,25 +8,45 @@ type TimelineItem = {
   title: string
   subtitle?: string
   details: string[]
+  url?: string
 }
 
 const internships: TimelineItem[] = [
   {
-    date: "June '24 - Aug '24",
-    title: "JPMorgan Chase",
-    subtitle: "Software Engineering Intern",
-    details: ["Working on anti-money laundering."],
+    date: "Aug '25 - Present",
+    title: "TRUST Lab Duke DeepTech",
+    subtitle: "Lead AI Developer",
+    url: "https://www.duketrustlab.com/",
+    details: [
+      "Developed voice-based liaison agents as part of a research project in collaboration with OpenAI to explore how voice-based, conversational LLM agents can function as 'research translators' in interdisciplinary collaborations.",
+      "Orchestrated low-latency (800ms) text-to-speech agents using OpenAI Whisper, leveraging an orchestrator-worker workflow and agent memory for real-time information retrieval.",
+    ],
   },
   {
-    date: "Dec '23 - April '24",
-    title: "ProAxion Student MLE",
-    subtitle: "Machine Learning Engineer",
-    details: ["Created a RAG system, part of capstone project."],
+    date: "Jun '25 - Aug '25",
+    title: "JPMorgan Chase & Co.",
+    subtitle: "AI/ML Associate Intern",
+    url: "https://www.jpmorganchase.com/",
+    details: [
+      "Led automation of SAR Narrative generation using AWS Bedrock, cutting costs by $50,000 and reducing production time by 90% through prompt engineering.",
+      "Built a SHAP Explainer Model to provide explanations to outputs for combating anti-money laundering.",
+    ],
   },
   {
-    date: "Nov '23 - June '23",
+    date: "Dec '23 - Apr '24",
+    title: "ProAxion",
+    subtitle: "Student Machine Learning Engineer",
+    url: "https://proaxion.io/",
+    details: [
+      "Built an industrial IoT chatbot enabling natural-language queries against machine health and maintenance data.",
+      "Integrated with ProAxion's sensor platform for real-time equipment status and predictive maintenance insights.",
+    ],
+  },
+  {
+    date: "Nov '23 - Jun '23",
     title: "Deakin University",
     subtitle: "Research Intern",
+    url: "https://experts.deakin.edu.au/",
     details: [
       "Developed a pipeline capable of on-edge video text detection using the Google Vision API, and wrote the C# code for the wrapper capable of running on a Microsoft Hololens headset.",
       "Collaborated with Dr. William Raffe to deploy it as a scalable implementation.",
@@ -36,29 +56,30 @@ const internships: TimelineItem[] = [
     date: "Aug '22 - Nov '22",
     title: "Sentics GmbH",
     subtitle: "Computer Vision Engineer",
+    url: "https://www.sentics.de/en/",
     details: [
-      "Developed an algorithm that accurately estimated the base point of an object using pose keypoint data from TRTPose and their 2D-3D correspondence, resulting in a 100% improvement in the accuracy of object location estimation.",
-      "Conducted extensive research and experimentation with various object and keypoint tracking methods and presented detailed findings and recommendations to the team.",
+      "Engineered an algorithm that accurately estimated the base point of an object using pose keypoint data from TRTPose and 2D-3D correspondence, resulting in a 100% improvement in object location estimation accuracy.",
+      "Conducted extensive research and experimentation with various object and keypoint tracking methods to evaluate performance trade-offs.",
     ],
   },
   {
     date: "May '22 - Jul '22",
     title: "Miniscule Technologies",
     subtitle: "Cloud AIOps Engineer",
+    url: "https://www.minusculetechnologies.com/",
     details: [
-      "Cloud AIOps Engineer, performing extensive research on evaluating major Cloud Service Providers and their readiness for industrial 5G use-cases.",
-      "Deployed an on-edge custom face detection model using Amazon Rekognition, trained on employee data stored on Amazon S3 with an accuracy of 88%.",
-      "Platform and hardware's used: AWS Cloud, Hikvision AcuSense camera.",
+      "Performed extensive research on evaluating major cloud service providers and their readiness for industrial 5G use cases.",
+      "Deployed an on-edge custom face detection model through Amazon Rekognition trained on employee data stored on Amazon S3, achieving an accuracy of 88% on the Hikvision AcuSense camera module.",
     ],
   },
 ]
 
 const research: TimelineItem[] = [
   {
-    date: "Dec '23 - Present",
+    date: "Dec '23 - Dec '25",
     title: "Adversarial attack on Flow matching",
     details: [
-      "Working on adversarial attack techniques for Flow matching models.",
+      "Studied adversarial attacks on flow-matching generative models, analyzing how perturbations to the learned vector field degrade generation quality.",
     ],
   },
   {
@@ -111,7 +132,7 @@ function TimelineCard({
   item: TimelineItem
   index: number
   isLeft: boolean
-}) {
+  }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(cardRef, { once: true, margin: "-60px" })
   const [isHovered, setIsHovered] = useState(false)
@@ -200,7 +221,18 @@ function TimelineCard({
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: index * 0.1 + 0.2, duration: 0.4 }}
             >
-              {item.title}
+              {item.url ? (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-foreground/30 underline-offset-2 hover:decoration-foreground transition-colors"
+                >
+                  {item.title}
+                </a>
+              ) : (
+                item.title
+              )}
             </motion.h3>
             {item.subtitle && (
               <motion.p
