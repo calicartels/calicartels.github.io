@@ -77,9 +77,8 @@ export function Hero() {
             </h2>
 
             <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/70 max-w-xl text-pretty">
-              I am currently pursuing my MEng in Artificial Intelligence for
-              Product Innovation at Duke University. I&apos;m passionate in the
-              disciplines of Data Science, Artificial Intelligence, &amp;
+              MEng in AI for Product Innovation from Duke University.
+              Passionate about Data Science, Artificial Intelligence, &amp;
               Computer Vision.
             </p>
 
