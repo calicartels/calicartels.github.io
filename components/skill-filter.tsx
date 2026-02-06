@@ -12,10 +12,7 @@ const skills = [
   "NLP",
   "Computer Vision",
   "Data Science",
-  "Flask",
-  "Streamlit",
-  "React",
-  "Flutter",
+  "XR / AR",
 ] as const
 
 export type Skill = (typeof skills)[number]

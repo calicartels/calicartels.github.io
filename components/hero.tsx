@@ -93,7 +93,7 @@ export function Hero() {
                 Resume
               </a>
               <a
-                href="#quote"
+                href="#experience"
                 className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-background text-foreground font-medium text-sm shadow-sm border border-border hover:shadow-md transition-shadow"
               >
                 Discover
@@ -107,7 +107,7 @@ export function Hero() {
               alt="Lightbulb illustration"
               width={300}
               height={300}
-              style={{ width: "300px", height: "auto" }}
+              className="w-[300px] h-auto"
               unoptimized
               priority
             />

@@ -15,7 +15,6 @@ type OtherProject = {
   githubUrl: string
   summary: string
   tags: string[]
-  demoUrl?: string
 }
 
 /* ── AI / ML Application Projects ── */
@@ -32,18 +31,7 @@ const aiProjects: OtherProject[] = [
     summary:
       "A multimodal RAG chatbot that processes both text and images. Documents and images are embedded via CLIP and OpenAI into ChromaDB, and LangChain orchestrates retrieval-augmented generation so the model answers queries with grounded, multi-format context.",
   },
-  {
-    title: "HyperExplainer",
-    description:
-      "A Chrome extension that uses AI to explain hyperparameters in ML code. Hover over any parameter to see an interactive explanation with visualizations.",
-    skills: ["Python", "Machine Learning", "Deep Learning"],
-    image: "/assets/image/hyperexplainer.jpg",
-    imageAlt: "HyperExplainer Chrome extension",
-    githubUrl: "https://github.com/calicartels/HyperExplainer",
-    tags: ["JavaScript", "Chrome Extension", "OpenAI", "D3.js"],
-    summary:
-      "A Chrome extension that detects hyperparameters in ML code on the web and overlays interactive AI-generated explanations with D3.js visualizations. Powered by OpenAI, it helps practitioners understand tuning implications in context without leaving their browser.",
-  },
+
   {
     title: "GNN Watch Market Analysis",
     description:
@@ -82,16 +70,17 @@ const aiProjects: OtherProject[] = [
       "A deep learning pipeline for anemia detection from blood smear microscopy. Uses U-Net for cell segmentation and ResNet for classification of red blood cell morphology, enabling automated identification of anemia subtypes from slide images.",
   },
   {
-    title: "RAG Evaluation Framework",
+    title: "XR Dyslexia-Friendly Text Detector",
     description:
-      "A comprehensive evaluation framework for Retrieval-Augmented Generation systems, benchmarking retrieval quality, generation faithfulness, and end-to-end performance.",
-    skills: ["Python", "NLP", "LLM"],
-    image: "/assets/image/rag-eval.jpg",
-    imageAlt: "RAG Evaluation Framework",
-    githubUrl: "https://github.com/shaunak-badani/NLP_Project",
-    tags: ["Python", "LangChain", "RAGAS", "Sentence Transformers", "FAISS"],
+      "An XR-based application that detects text in the environment and converts it to a dyslexia-friendly font (OpenDyslexic) using Google Cloud Vision API and Unity.",
+    skills: ["Computer Vision", "XR / AR"],
+    image: "/assets/image/xr-dyslexia.jpg",
+    imageAlt: "XR Dyslexia-Friendly Text Detector",
+    githubUrl:
+      "https://github.com/calicartels/XR-based-Dyslexia-Friendly-Text-Detector",
+    tags: ["C#", "Unity", "Google Vision API", "OpenDyslexic", "XR"],
     summary:
-      "An end-to-end evaluation framework for RAG systems. Benchmarks retrieval precision, generation faithfulness, and answer relevancy using RAGAS metrics across different embedding models and chunk strategies, providing actionable insights for RAG pipeline optimization.",
+      "An augmented reality application that helps dyslexic users interact with text in their environment. Uses the Google Cloud Vision API to detect text from the smartphone camera feed and re-renders it in the OpenDyslexic font with animated effects, making everyday reading more accessible.",
   },
 ]
 
@@ -246,7 +235,6 @@ export function OtherProjects({
       githubUrl: project.githubUrl,
       summary: project.summary,
       skills: project.skills,
-      demoUrl: "demoUrl" in project ? project.demoUrl : undefined,
     })
   }
 
@@ -293,8 +281,7 @@ export function OtherProjects({
                             alt={project.imageAlt}
                             width={300}
                             height={140}
-                            className="object-cover"
-                            style={{ width: "100%", height: "100%" }}
+                            className="object-cover w-full h-full"
                           />
                         </div>
                       </div>
@@ -369,8 +356,7 @@ export function OtherProjects({
                             alt={project.imageAlt}
                             width={300}
                             height={120}
-                            className="object-cover"
-                            style={{ width: "100%", height: "100%" }}
+                            className="object-cover w-full h-full"
                           />
                         </div>
                       </div>

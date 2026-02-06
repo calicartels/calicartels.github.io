@@ -9,46 +9,66 @@ interface CrowdCanvasProps {
   cols?: number
 }
 
-class Peep {
+type Peep = {
+  image: HTMLImageElement
   rect: number[]
+  width: number
+  height: number
+  drawArgs: unknown[]
   x: number
   y: number
   anchorY: number
   scaleX: number
   walk: gsap.core.Timeline | null
-  img: HTMLImageElement
-  width: number
-  height: number
+  setRect: (rect: number[]) => void
+  render: (ctx: CanvasRenderingContext2D) => void
+}
 
-  constructor(rect: number[], img: HTMLImageElement) {
-    this.rect = rect
-    this.x = 0
-    this.y = 0
-    this.anchorY = 0
-    this.scaleX = 1
-    this.walk = null
-    this.img = img
-    this.width = rect[2]
-    this.height = rect[3]
+const createPeep = ({
+  image,
+  rect,
+}: {
+  image: HTMLImageElement
+  rect: number[]
+}): Peep => {
+  const peep: Peep = {
+    image,
+    rect: [],
+    width: 0,
+    height: 0,
+    drawArgs: [],
+    x: 0,
+    y: 0,
+    anchorY: 0,
+    scaleX: 1,
+    walk: null,
+    setRect: (r: number[]) => {
+      peep.rect = r
+      peep.width = r[2]
+      peep.height = r[3]
+      peep.drawArgs = [peep.image, ...r, 0, 0, peep.width, peep.height]
+    },
+    render: (ctx: CanvasRenderingContext2D) => {
+      ctx.save()
+      ctx.translate(peep.x, peep.y)
+      ctx.scale(peep.scaleX, 1)
+      ctx.drawImage(
+        peep.image,
+        peep.rect[0],
+        peep.rect[1],
+        peep.rect[2],
+        peep.rect[3],
+        0,
+        0,
+        peep.width,
+        peep.height
+      )
+      ctx.restore()
+    },
   }
 
-  render(ctx: CanvasRenderingContext2D) {
-    ctx.save()
-    ctx.translate(this.x, this.y)
-    ctx.scale(this.scaleX, 1)
-    ctx.drawImage(
-      this.img,
-      this.rect[0],
-      this.rect[1],
-      this.rect[2],
-      this.rect[3],
-      -this.width * 0.5,
-      -this.height,
-      this.width,
-      this.height
-    )
-    ctx.restore()
-  }
+  peep.setRect(rect)
+  return peep
 }
 
 export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
@@ -61,10 +81,14 @@ export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    const randomRange = (min: number, max: number) => min + Math.random() * (max - min)
+    const randomRange = (min: number, max: number) =>
+      min + Math.random() * (max - min)
     const randomIndex = (arr: unknown[]) => (randomRange(0, arr.length) | 0)
     const removeFromArray = (arr: unknown[], i: number) => arr.splice(i, 1)[0]
-    const removeRandomFromArray = (arr: unknown[]) => removeFromArray(arr, randomIndex(arr))
+    const removeItemFromArray = (arr: unknown[], item: unknown) =>
+      removeFromArray(arr, arr.indexOf(item))
+    const removeRandomFromArray = (arr: unknown[]) =>
+      removeFromArray(arr, randomIndex(arr))
     const getRandomFromArray = (arr: unknown[]) => arr[randomIndex(arr) | 0]
 
     const stage = { width: 0, height: 0 }
@@ -72,18 +96,19 @@ export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
     const availablePeeps: Peep[] = []
     const crowd: Peep[] = []
 
-    const resetPeep = (peep: Peep) => {
+    const resetPeep = ({ stage: s, peep }: { stage: typeof stage; peep: Peep }) => {
       const direction = Math.random() > 0.5 ? 1 : -1
       const offsetY = 100 - 250 * gsap.parseEase("power2.in")(Math.random())
-      const startY = stage.height - peep.height + offsetY
-      let startX: number, endX: number
+      const startY = s.height - peep.height + offsetY
+      let startX: number
+      let endX: number
 
       if (direction === 1) {
         startX = -peep.width
-        endX = stage.width
+        endX = s.width
         peep.scaleX = 1
       } else {
-        startX = stage.width + peep.width
+        startX = s.width + peep.width
         endX = 0
         peep.scaleX = -1
       }
@@ -95,8 +120,8 @@ export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
       return { startX, startY, endX }
     }
 
-    const normalWalk = (peep: Peep, props: { startX: number; startY: number; endX: number }) => {
-      const { startX, startY, endX } = props
+    const normalWalk = ({ peep, props }: { peep: Peep; props: { startX: number; startY: number; endX: number } }) => {
+      const { startY, endX } = props
       const xDuration = 10
       const yDuration = 0.25
 
@@ -117,77 +142,91 @@ export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
       return tl
     }
 
-    const walks = [normalWalk]
+    type WalkFn = typeof normalWalk
+    const walks: WalkFn[] = [normalWalk]
 
-    const addPeep = () => {
-      const peep = removeRandomFromArray(availablePeeps) as Peep
-      if (!peep) return
-      const props = resetPeep(peep)
-      const walkFn = getRandomFromArray(walks) as typeof normalWalk
-      const tl = walkFn(peep, props)
+    const createPeeps = () => {
+      const { naturalWidth: width, naturalHeight: height } = img
+      const rectWidth = width / rows
+      const rectHeight = height / cols
+      const total = rows * cols
 
-      peep.walk = tl
-      tl.eventCallback("onComplete", () => {
-        removeItemFromArray(crowd, peep)
-        availablePeeps.push(peep)
-        addPeep()
-      })
-
-      crowd.push(peep)
+      for (let i = 0; i < total; i++) {
+        allPeeps.push(
+          createPeep({
+            image: img,
+            rect: [
+              (i % rows) * rectWidth,
+              ((i / rows) | 0) * rectHeight,
+              rectWidth,
+              rectHeight,
+            ],
+          })
+        )
+      }
     }
 
-    const removeItemFromArray = (arr: Peep[], item: Peep) => {
-      const idx = arr.indexOf(item)
-      if (idx !== -1) arr.splice(idx, 1)
+    const addPeepToCrowd = () => {
+      const peep = removeRandomFromArray(availablePeeps) as Peep
+      if (!peep) return peep
+      const walkFn = getRandomFromArray(walks) as WalkFn
+      const walk = walkFn({
+        peep,
+        props: resetPeep({ peep, stage }),
+      }).eventCallback("onComplete", () => {
+        removePeepFromCrowd(peep)
+        addPeepToCrowd()
+      })
+
+      peep.walk = walk
+      crowd.push(peep)
+      crowd.sort((a, b) => a.anchorY - b.anchorY)
+
+      return peep
+    }
+
+    const removePeepFromCrowd = (peep: Peep) => {
+      removeItemFromArray(crowd, peep)
+      availablePeeps.push(peep)
+    }
+
+    const initCrowd = () => {
+      while (availablePeeps.length) {
+        const p = addPeepToCrowd()
+        if (p?.walk) p.walk.progress(Math.random())
+      }
+    }
+
+    const render = () => {
+      if (!canvas) return
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.save()
+      ctx.scale(devicePixelRatio, devicePixelRatio)
+      crowd.forEach((peep) => peep.render(ctx))
+      ctx.restore()
     }
 
     const resize = () => {
       if (!canvas) return
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-      stage.width = canvas.width
-      stage.height = canvas.height
-    }
+      stage.width = canvas.clientWidth
+      stage.height = canvas.clientHeight
+      canvas.width = stage.width * devicePixelRatio
+      canvas.height = stage.height * devicePixelRatio
 
-    const render = () => {
-      if (!ctx || !canvas) return
-      canvas.width = canvas.width // clear
-      crowd.sort((a, b) => a.anchorY - b.anchorY)
-      crowd.forEach((p) => p.render(ctx))
+      crowd.forEach((p) => p.walk?.kill())
+      crowd.length = 0
+      availablePeeps.length = 0
+      availablePeeps.push(...allPeeps)
+      initCrowd()
     }
 
     const img = new window.Image()
     img.crossOrigin = "anonymous"
 
     const init = () => {
-      createPeeps(img)
+      createPeeps()
       resize()
-
       gsap.ticker.add(render)
-
-      const crowdCount = Math.min(20, allPeeps.length)
-      for (let i = 0; i < crowdCount; i++) {
-        addPeep()
-      }
-    }
-
-    const createPeeps = (loadedImg: HTMLImageElement) => {
-      const { naturalWidth: w, naturalHeight: h } = loadedImg
-      const fw = w / cols
-      const fh = h / rows
-
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          allPeeps.push(new Peep([col * fw, row * fh, fw, fh], loadedImg))
-        }
-      }
-
-      // Shuffle into available
-      for (let i = allPeeps.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[allPeeps[i], allPeeps[j]] = [allPeeps[j], allPeeps[i]]
-      }
-      availablePeeps.push(...allPeeps)
     }
 
     img.onload = init
@@ -197,9 +236,9 @@ export function CrowdCanvas({ src, rows = 15, cols = 7 }: CrowdCanvasProps) {
     window.addEventListener("resize", handleResize)
 
     return () => {
+      window.removeEventListener("resize", handleResize)
       gsap.ticker.remove(render)
       crowd.forEach((p) => p.walk?.kill())
-      window.removeEventListener("resize", handleResize)
     }
   }, [src, rows, cols])
 
