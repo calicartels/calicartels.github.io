@@ -151,7 +151,8 @@ export function FeaturedProjects() {
                       alt={project.imageAlt}
                       width={550}
                       height={220}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </div>
                 </div>

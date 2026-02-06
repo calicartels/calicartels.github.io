@@ -109,7 +109,8 @@ export function OtherProjects() {
                       alt={project.imageAlt}
                       width={300}
                       height={160}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </div>
                 </div>
@@ -163,7 +164,8 @@ export function OtherProjects() {
                     alt={project.imageAlt}
                     width={550}
                     height={350}
-                    className="rounded-lg shadow-sm w-full h-auto"
+                    className="rounded-lg shadow-sm"
+                    style={{ width: "100%", height: "auto" }}
                   />
                 </a>
               </div>

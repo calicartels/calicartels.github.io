@@ -92,7 +92,8 @@ export function TestimonialsSection() {
                   alt={t.name}
                   width={48}
                   height={48}
-                  className="w-12 h-12 rounded-full object-cover"
+                  className="rounded-full object-cover"
+                  style={{ width: "48px", height: "48px" }}
                 />
                 <div className="flex-1">
                   <h3 className="text-sm font-semibold text-foreground">
@@ -133,7 +134,8 @@ export function TestimonialsSection() {
               alt="Future collaborator"
               width={48}
               height={48}
-              className="w-12 h-12 rounded-full object-cover mb-4"
+              className="rounded-full object-cover mb-4"
+              style={{ width: "48px", height: "48px" }}
             />
             <h3 className="text-sm font-semibold text-foreground">You</h3>
             <p className="text-xs text-muted-foreground mb-3">
