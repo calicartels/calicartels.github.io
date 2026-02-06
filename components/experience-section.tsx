@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
 type TimelineItem = {
   date: string
   title: string
+  subtitle?: string
   details: string[]
 }
 
@@ -12,16 +13,19 @@ const internships: TimelineItem[] = [
   {
     date: "June '24 - Aug '24",
     title: "JPMorgan Chase",
+    subtitle: "Software Engineering Intern",
     details: ["Working on anti-money laundering."],
   },
   {
     date: "Dec '23 - April '24",
     title: "ProAxion Student MLE",
+    subtitle: "Machine Learning Engineer",
     details: ["Created a RAG system, part of capstone project."],
   },
   {
     date: "Nov '23 - June '23",
     title: "Deakin University",
+    subtitle: "Research Intern",
     details: [
       "Developed a pipeline capable of on-edge video text detection using the Google Vision API, and wrote the C# code for the wrapper capable of running on a Microsoft Hololens headset.",
       "Collaborated with Dr. William Raffe to deploy it as a scalable implementation.",
@@ -30,6 +34,7 @@ const internships: TimelineItem[] = [
   {
     date: "Aug '22 - Nov '22",
     title: "Sentics GmbH",
+    subtitle: "Computer Vision Engineer",
     details: [
       "Developed an algorithm that accurately estimated the base point of an object using pose keypoint data from TRTPose and their 2D-3D correspondence, resulting in a 100% improvement in the accuracy of object location estimation.",
       "Conducted extensive research and experimentation with various object and keypoint tracking methods and presented detailed findings and recommendations to the team.",
@@ -38,6 +43,7 @@ const internships: TimelineItem[] = [
   {
     date: "May '22 - Jul '22",
     title: "Miniscule Technologies",
+    subtitle: "Cloud AIOps Engineer",
     details: [
       "Cloud AIOps Engineer, performing extensive research on evaluating major Cloud Service Providers and their readiness for industrial 5G use-cases.",
       "Deployed an on-edge custom face detection model using Amazon Rekognition, trained on employee data stored on Amazon S3 with an accuracy of 88%.",
@@ -82,57 +88,97 @@ const research: TimelineItem[] = [
   },
 ]
 
-function TimelineEntry({
+function TimelineCard({
   item,
   index,
-  expandedIndex,
-  onToggle,
+  isLeft,
 }: {
   item: TimelineItem
   index: number
-  expandedIndex: number | null
-  onToggle: (i: number) => void
+  isLeft: boolean
 }) {
-  const isExpanded = expandedIndex === index
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+          }
+        })
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -50px 0px" }
+    )
+
+    const el = cardRef.current
+    if (el) observer.observe(el)
+    return () => {
+      if (el) observer.unobserve(el)
+    }
+  }, [])
+
   return (
-    <div className="relative pl-8 pb-8 last:pb-0">
-      {/* Line */}
-      <div className="absolute left-[7px] top-2 bottom-0 w-[1px] bg-border" />
-      {/* Dot */}
-      <div className="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 border-foreground bg-background" />
-
-      <div className="text-xs text-muted-foreground font-medium mb-1">
-        {item.date}
-      </div>
-      <button
-        onClick={() => onToggle(index)}
-        className="flex items-center gap-2 text-left w-full group"
-        aria-expanded={isExpanded}
-      >
-        <h3 className="text-base font-medium text-foreground group-hover:text-foreground/80 transition-colors">
-          {item.title}
-        </h3>
-        <span className="text-muted-foreground text-lg leading-none flex-shrink-0">
-          {isExpanded ? "\u2212" : "+"}
-        </span>
-      </button>
-
+    <div
+      ref={cardRef}
+      className={`relative flex items-start gap-6 md:gap-0 ${
+        isLeft ? "md:flex-row" : "md:flex-row-reverse"
+      }`}
+    >
+      {/* Card content - on desktop it alternates sides */}
       <div
-        className={`overflow-hidden transition-all duration-300 ${
-          isExpanded ? "max-h-[500px] opacity-100 mt-3" : "max-h-0 opacity-0"
+        className={`flex-1 md:w-[calc(50%-24px)] transition-all duration-700 ease-out ${
+          isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
         }`}
+        style={{ transitionDelay: `${index * 80}ms` }}
       >
-        <ul className="space-y-2 text-sm text-foreground/80 leading-relaxed">
-          {item.details.map((detail, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="text-muted-foreground mt-1 flex-shrink-0">
-                &bull;
-              </span>
-              <span>{detail}</span>
-            </li>
-          ))}
-        </ul>
+        <div
+          className={`rounded-xl border border-border/60 bg-background p-5 md:p-6 shadow-sm hover:shadow-md hover:border-foreground/10 transition-all duration-300 ${
+            isLeft ? "md:mr-12" : "md:ml-12"
+          }`}
+        >
+          <span className="inline-block text-xs font-medium text-muted-foreground bg-secondary/80 px-3 py-1 rounded-full mb-3">
+            {item.date}
+          </span>
+          <h3 className="text-base font-semibold text-foreground mb-1">
+            {item.title}
+          </h3>
+          {item.subtitle && (
+            <p className="text-sm text-muted-foreground mb-3">
+              {item.subtitle}
+            </p>
+          )}
+          <ul className="space-y-2">
+            {item.details.map((detail, i) => (
+              <li
+                key={i}
+                className="flex gap-2 text-sm text-foreground/75 leading-relaxed"
+              >
+                <span className="text-muted-foreground mt-1 flex-shrink-0 text-xs">
+                  {"\u25CF"}
+                </span>
+                <span>{detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+
+      {/* Center node - visible on desktop only */}
+      <div className="hidden md:flex flex-col items-center z-10 absolute left-1/2 -translate-x-1/2 top-6">
+        <div
+          className={`w-3.5 h-3.5 rounded-full border-2 border-foreground bg-background transition-all duration-500 ${
+            isVisible ? "scale-100" : "scale-0"
+          }`}
+          style={{ transitionDelay: `${index * 80 + 100}ms` }}
+        />
+      </div>
+
+      {/* Empty spacer for opposite side - desktop only */}
+      <div className="hidden md:block flex-1 md:w-[calc(50%-24px)]" />
     </div>
   )
 }
@@ -141,29 +187,33 @@ export function ExperienceSection() {
   const [activeTab, setActiveTab] = useState<"internships" | "research">(
     "internships"
   )
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const lineRef = useRef<HTMLDivElement>(null)
+  const [lineHeight, setLineHeight] = useState(0)
 
   const data = activeTab === "internships" ? internships : research
 
-  function handleToggle(index: number) {
-    setExpandedIndex(expandedIndex === index ? null : index)
-  }
+  useEffect(() => {
+    setLineHeight(0)
+    const timer = setTimeout(() => {
+      if (lineRef.current) {
+        setLineHeight(lineRef.current.scrollHeight)
+      }
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [activeTab])
 
   return (
     <section id="experience" className="py-24 px-6">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-2 text-balance">
           My Experience
         </h2>
         <div className="w-12 h-[2px] bg-foreground mb-10" />
 
         {/* Tabs */}
-        <div className="flex gap-0 mb-10 border-b border-border relative">
+        <div className="flex gap-0 mb-12 border-b border-border relative">
           <button
-            onClick={() => {
-              setActiveTab("internships")
-              setExpandedIndex(null)
-            }}
+            onClick={() => setActiveTab("internships")}
             className={`px-6 py-3 text-sm font-medium transition-colors relative ${
               activeTab === "internships"
                 ? "text-foreground"
@@ -172,14 +222,11 @@ export function ExperienceSection() {
           >
             Internships
             {activeTab === "internships" && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground" />
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground transition-all" />
             )}
           </button>
           <button
-            onClick={() => {
-              setActiveTab("research")
-              setExpandedIndex(null)
-            }}
+            onClick={() => setActiveTab("research")}
             className={`px-6 py-3 text-sm font-medium transition-colors relative ${
               activeTab === "research"
                 ? "text-foreground"
@@ -188,22 +235,39 @@ export function ExperienceSection() {
           >
             Research
             {activeTab === "research" && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground" />
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground transition-all" />
             )}
           </button>
         </div>
 
-        {/* Timeline */}
-        <div>
-          {data.map((item, index) => (
-            <TimelineEntry
-              key={`${activeTab}-${index}`}
-              item={item}
-              index={index}
-              expandedIndex={expandedIndex}
-              onToggle={handleToggle}
+        {/* Vertical Timeline */}
+        <div ref={lineRef} className="relative">
+          {/* Animated vertical line - desktop only */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-[0.5px] top-0 w-[1px] bg-border overflow-hidden">
+            <div
+              className="w-full bg-foreground/30 transition-all duration-1000 ease-out"
+              style={{ height: lineHeight }}
             />
-          ))}
+          </div>
+
+          {/* Mobile vertical line */}
+          <div className="md:hidden absolute left-[7px] top-0 bottom-0 w-[1px] bg-border" />
+
+          <div className="flex flex-col gap-10 md:gap-12">
+            {data.map((item, index) => (
+              <div key={`${activeTab}-${index}`} className="relative">
+                {/* Mobile node */}
+                <div className="md:hidden absolute left-0 top-6 w-[15px] h-[15px] rounded-full border-2 border-foreground bg-background z-10" />
+                <div className="pl-8 md:pl-0">
+                  <TimelineCard
+                    item={item}
+                    index={index}
+                    isLeft={index % 2 === 0}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

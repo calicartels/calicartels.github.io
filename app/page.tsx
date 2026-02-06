@@ -1,3 +1,4 @@
+import { EyeCursor } from "@/components/eye-cursor"
 import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
 import { QuoteSection } from "@/components/quote-section"
@@ -10,6 +11,7 @@ import { Footer } from "@/components/footer"
 export default function Home() {
   return (
     <>
+      <EyeCursor />
       <Navbar />
       <main>
         <Hero />

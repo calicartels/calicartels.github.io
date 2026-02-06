@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 
 type Testimonial = {
@@ -40,116 +40,209 @@ const testimonials: Testimonial[] = [
 ]
 
 export function TestimonialsSection() {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [direction, setDirection] = useState<"left" | "right">("left")
+  const [isAnimating, setIsAnimating] = useState(false)
 
-  function scroll(direction: "left" | "right") {
-    if (!scrollRef.current) return
-    const cardWidth = scrollRef.current.querySelector("div")?.offsetWidth ?? 400
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -(cardWidth + 24) : cardWidth + 24,
-      behavior: "smooth",
-    })
+  const totalSlides = testimonials.length + 1 // +1 for the "You" placeholder
+
+  const goTo = useCallback(
+    (newIndex: number, dir: "left" | "right") => {
+      if (isAnimating) return
+      setDirection(dir)
+      setIsAnimating(true)
+      setActiveIndex(newIndex)
+    },
+    [isAnimating]
+  )
+
+  const next = useCallback(() => {
+    goTo((activeIndex + 1) % totalSlides, "left")
+  }, [activeIndex, totalSlides, goTo])
+
+  const prev = useCallback(() => {
+    goTo((activeIndex - 1 + totalSlides) % totalSlides, "right")
+  }, [activeIndex, totalSlides, goTo])
+
+  useEffect(() => {
+    if (isAnimating) {
+      const timer = setTimeout(() => setIsAnimating(false), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [isAnimating])
+
+  // Auto-advance
+  useEffect(() => {
+    const timer = setInterval(next, 6000)
+    return () => clearInterval(timer)
+  }, [next])
+
+  const getSlideClass = () => {
+    const base = "transition-all duration-500 ease-in-out"
+    if (!isAnimating) return `${base} opacity-100 translate-x-0`
+    if (direction === "left")
+      return `${base} animate-slide-in-left`
+    return `${base} animate-slide-in-right`
   }
+
+  const currentIsPlaceholder = activeIndex === testimonials.length
 
   return (
     <section id="testimonials" className="py-24 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-between mb-10">
-          <h2 className="text-3xl md:text-4xl font-normal text-foreground text-balance">
-            What Others Say
-          </h2>
-          <div className="flex gap-2">
-            <button
-              onClick={() => scroll("left")}
-              className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
-              aria-label="Previous testimonial"
-            >
-              <i className="fas fa-chevron-left text-xs" />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
-              aria-label="Next testimonial"
-            >
-              <i className="fas fa-chevron-right text-xs" />
-            </button>
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-2 text-balance">
+          What Others Say
+        </h2>
+        <div className="w-12 h-[2px] bg-foreground mb-12" />
+
+        <div className="relative">
+          {/* Quote icon */}
+          <div className="absolute -top-2 left-0 text-6xl md:text-8xl text-foreground/5 font-serif select-none pointer-events-none leading-none">
+            {'\u201C'}
           </div>
-        </div>
 
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {testimonials.map((t) => (
-            <div
-              key={t.name}
-              className="flex-shrink-0 w-[90vw] sm:w-[500px] snap-start rounded-lg border border-border p-6 bg-background"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <Image
-                  src={t.image}
-                  alt={t.name}
-                  width={48}
-                  height={48}
-                  className="rounded-full object-cover"
-                  style={{ width: "48px", height: "48px" }}
-                />
-                <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-foreground">
-                    {t.name}
+          <div className="relative overflow-hidden min-h-[340px] md:min-h-[280px]">
+            <div key={activeIndex} className={getSlideClass()}>
+              {currentIsPlaceholder ? (
+                /* Placeholder "You" card */
+                <div className="flex flex-col items-center justify-center text-center py-8">
+                  <Image
+                    src="/assets/testimonial images/default.png"
+                    alt="Future collaborator"
+                    width={64}
+                    height={64}
+                    className="rounded-full object-cover mb-6"
+                    style={{ width: "64px", height: "64px" }}
+                  />
+                  <h3 className="text-xl font-semibold text-foreground mb-1">
+                    You
                   </h3>
-                  <p className="text-xs text-muted-foreground">{t.role}</p>
-                </div>
-                {t.linkedinUrl && (
-                  <a
-                    href={t.linkedinUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                    aria-label={`${t.name}'s LinkedIn`}
-                  >
-                    <i className="fab fa-linkedin text-lg" />
-                  </a>
-                )}
-              </div>
-              <div className="space-y-3">
-                {t.paragraphs.map((p, i) => (
-                  <p
-                    key={i}
-                    className="text-sm text-foreground/80 leading-relaxed"
-                  >
-                    {p}
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Future Collaborator
                   </p>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground mt-4">{t.date}</p>
-            </div>
-          ))}
+                  <p className="text-base text-foreground/60 mb-6 max-w-md">
+                    This space is reserved for what you&apos;ll say after we
+                    work together.
+                  </p>
+                  <a
+                    href="#connect"
+                    className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+                  >
+                    {"Let's Connect"}
+                  </a>
+                </div>
+              ) : (
+                /* Actual testimonial */
+                <div>
+                  <div className="space-y-4 mb-8">
+                    {testimonials[activeIndex].paragraphs.map((p, i) => (
+                      <p
+                        key={i}
+                        className="text-base md:text-lg text-foreground/80 leading-relaxed"
+                      >
+                        {p}
+                      </p>
+                    ))}
+                  </div>
 
-          {/* Placeholder card */}
-          <div className="flex-shrink-0 w-[90vw] sm:w-[500px] snap-start rounded-lg border border-border border-dashed p-6 bg-background flex flex-col justify-center items-center text-center">
-            <Image
-              src="/assets/testimonial images/default.png"
-              alt="Future collaborator"
-              width={48}
-              height={48}
-              className="rounded-full object-cover mb-4"
-              style={{ width: "48px", height: "48px" }}
-            />
-            <h3 className="text-sm font-semibold text-foreground">You</h3>
-            <p className="text-xs text-muted-foreground mb-3">
-              Future Collaborator
-            </p>
-            <p className="text-sm text-foreground/60 mb-4">
-              After we work together?
-            </p>
-            <a
-              href="#connect"
-              className="inline-flex items-center justify-center px-6 py-2 rounded-full bg-foreground text-background text-sm font-medium"
-            >
-              Contact Me
-            </a>
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src={testimonials[activeIndex].image}
+                      alt={testimonials[activeIndex].name}
+                      width={48}
+                      height={48}
+                      className="rounded-full object-cover"
+                      style={{ width: "48px", height: "48px" }}
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-semibold text-foreground">
+                          {testimonials[activeIndex].name}
+                        </h3>
+                        {testimonials[activeIndex].linkedinUrl && (
+                          <a
+                            href={testimonials[activeIndex].linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label={`${testimonials[activeIndex].name}'s LinkedIn`}
+                          >
+                            <i className="fab fa-linkedin" />
+                          </a>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {testimonials[activeIndex].role}
+                      </p>
+                    </div>
+                    <p className="text-xs text-muted-foreground hidden sm:block">
+                      {testimonials[activeIndex].date}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex items-center justify-between mt-8">
+            {/* Dots */}
+            <div className="flex gap-2">
+              {Array.from({ length: totalSlides }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() =>
+                    goTo(i, i > activeIndex ? "left" : "right")
+                  }
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === activeIndex
+                      ? "w-8 bg-foreground"
+                      : "w-2 bg-foreground/20 hover:bg-foreground/40"
+                  }`}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Arrows */}
+            <div className="flex gap-2">
+              <button
+                onClick={prev}
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
+                aria-label="Previous testimonial"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                onClick={next}
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
+                aria-label="Next testimonial"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

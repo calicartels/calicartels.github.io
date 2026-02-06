@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import Image from "next/image"
+import DecryptedText from "@/components/decrypted-text"
 
 export function Hero() {
   const typedRef = useRef<HTMLSpanElement>(null)
@@ -44,7 +45,7 @@ export function Hero() {
   }, [])
 
   return (
-    <header className="relative min-h-screen flex items-center">
+    <header className="relative min-h-screen flex items-center pt-20">
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center">
           <div className="lg:w-3/5 flex flex-col justify-center">
@@ -52,23 +53,37 @@ export function Hero() {
               &mdash; Portfolio
             </p>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground text-balance">
-              Hi, my name is Vishnu,
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-semibold leading-tight text-foreground text-balance">
+              {"Hi, my name is "}
+              <span className="relative inline-block">
+                <DecryptedText
+                  text="Vishnu"
+                  speed={60}
+                  maxIterations={12}
+                  animateOn="view"
+                  className="text-foreground"
+                  encryptedClassName="text-muted-foreground/60"
+                  parentClassName=""
+                />
+                {/* Underline accent */}
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-foreground/20 rounded-full" />
+              </span>
+              {","}
             </h1>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground mt-2">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium leading-tight text-foreground mt-3">
               {"I am a "}
               <span ref={typedRef} className="text-muted-foreground" />
               <span className="animate-pulse text-muted-foreground">|</span>
             </h2>
 
-            <p className="mt-6 text-lg leading-relaxed text-foreground/80 max-w-xl text-pretty">
+            <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/70 max-w-xl text-pretty">
               I am currently pursuing my MEng in Artificial Intelligence for
               Product Innovation at Duke University. I&apos;m passionate in the
               disciplines of Data Science, Artificial Intelligence, &amp;
               Computer Vision.
             </p>
 
-            <div className="flex gap-3 mt-8">
+            <div className="flex flex-wrap gap-3 mt-8">
               <a
                 href="/assets/file/Resume.pdf"
                 target="_blank"
