@@ -2,8 +2,7 @@ import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
 import { QuoteSection } from "@/components/quote-section"
 import { ExperienceSection } from "@/components/experience-section"
-import { FeaturedProjects } from "@/components/featured-projects"
-import { OtherProjects } from "@/components/other-projects"
+import { ProjectsSection } from "@/components/projects-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { AboutSection } from "@/components/about-section"
 import { Footer } from "@/components/footer"
@@ -16,8 +15,7 @@ export default function Home() {
         <Hero />
         <QuoteSection />
         <ExperienceSection />
-        <FeaturedProjects />
-        <OtherProjects />
+        <ProjectsSection />
         <TestimonialsSection />
         <AboutSection />
       </main>
