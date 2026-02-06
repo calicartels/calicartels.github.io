@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Generate a fully static export for GitHub Pages
+  output: "export",
   images: {
     remotePatterns: [
       {
