@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react"
 
 export default function DecryptedText({
   text,
-  speed = 50,
+  speed = 80,
   maxIterations = 10,
   sequential = false,
   revealDirection = "start" as "start" | "end" | "center",
@@ -33,7 +33,6 @@ export default function DecryptedText({
   const [revealedIndices, setRevealedIndices] = useState<Set<number>>(
     new Set()
   )
-  const [hasAnimated, setHasAnimated] = useState(false)
   const containerRef = useRef<HTMLSpanElement>(null)
 
   const getNextIndex = useCallback(
@@ -147,9 +146,13 @@ export default function DecryptedText({
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setIsHovering(true)
-          setHasAnimated(true)
+        if (entry.isIntersecting) {
+          // Re-trigger scramble every time element enters viewport
+          setIsHovering(false)
+          // Small delay so the reset takes effect before re-triggering
+          requestAnimationFrame(() => {
+            setIsHovering(true)
+          })
         }
       })
     }
@@ -170,7 +173,7 @@ export default function DecryptedText({
         observer.unobserve(currentRef)
       }
     }
-  }, [animateOn, hasAnimated])
+  }, [animateOn])
 
   const hoverProps =
     animateOn === "hover" || animateOn === "both"

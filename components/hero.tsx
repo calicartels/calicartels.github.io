@@ -58,8 +58,8 @@ export function Hero() {
               <span className="relative inline-block">
                 <DecryptedText
                   text="Vishnu"
-                  speed={60}
-                  maxIterations={12}
+                  speed={100}
+                  maxIterations={18}
                   animateOn="view"
                   className="text-foreground"
                   encryptedClassName="text-muted-foreground/60"

@@ -30,52 +30,52 @@ function FadeIn({
 
 export function PersonalIntro() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-24 px-6 bg-foreground text-background">
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
           <FadeIn className="md:col-span-2">
-            <h2 className="text-2xl md:text-3xl font-normal leading-snug text-foreground text-balance">
+            <h2 className="text-2xl md:text-3xl font-normal leading-snug text-background text-balance">
               A bit about me
             </h2>
-            <div className="w-10 h-[2px] bg-foreground/20 mt-4" />
+            <div className="w-10 h-[2px] bg-background/20 mt-4" />
           </FadeIn>
           <FadeIn delay={0.1} className="md:col-span-3">
-            <div className="space-y-5 text-base leading-relaxed text-foreground/70">
+            <div className="space-y-5 text-base leading-relaxed text-background/70">
               <p>
                 I am extremely{" "}
-                <strong className="text-foreground">passionate</strong> about
+                <strong className="text-background">passionate</strong> about
                 all aspects of{" "}
-                <strong className="text-foreground">
+                <strong className="text-background">
                   Computer Vision, Product Development
                 </strong>{" "}
                 and{" "}
-                <strong className="text-foreground">Generative AI</strong>. I
+                <strong className="text-background">Generative AI</strong>. I
                 embrace working on research and development in those topics to{" "}
-                <strong className="text-foreground">improve lives</strong> and{" "}
-                <strong className="text-foreground">experiences</strong>.
+                <strong className="text-background">improve lives</strong> and{" "}
+                <strong className="text-background">experiences</strong>.
               </p>
               <p>
-                The <strong className="text-foreground">atmosphere</strong> in
+                The <strong className="text-background">atmosphere</strong> in
                 which I work is{" "}
-                <strong className="text-foreground">essential</strong>, and I
+                <strong className="text-background">essential</strong>, and I
                 find it difficult to collaborate with individuals who
                 aren&apos;t{" "}
-                <strong className="text-foreground">inspired</strong>.
+                <strong className="text-background">inspired</strong>.
                 I&apos;m driven to{" "}
-                <strong className="text-foreground">grow</strong> as a
+                <strong className="text-background">grow</strong> as a
                 developer and{" "}
-                <strong className="text-foreground">learn</strong> from others.
+                <strong className="text-background">learn</strong> from others.
               </p>
               <p>
                 I enjoy spending time with my{" "}
-                <strong className="text-foreground">friends</strong>, training
+                <strong className="text-background">friends</strong>, training
                 myself in the arts of{" "}
-                <strong className="text-foreground">Mixed Martial Arts</strong>,
+                <strong className="text-background">Mixed Martial Arts</strong>,
                 going to the{" "}
-                <strong className="text-foreground">gym</strong>, and at the{" "}
-                <strong className="text-foreground">beach</strong> where I{" "}
-                <strong className="text-foreground">Surf</strong> and{" "}
-                <strong className="text-foreground">Scuba dive</strong>.
+                <strong className="text-background">gym</strong>, and at the{" "}
+                <strong className="text-background">beach</strong> where I{" "}
+                <strong className="text-background">Surf</strong> and{" "}
+                <strong className="text-background">Scuba dive</strong>.
               </p>
             </div>
           </FadeIn>

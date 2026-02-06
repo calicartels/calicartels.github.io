@@ -282,6 +282,7 @@ export function OtherProjects({
                             width={300}
                             height={140}
                             className="object-cover w-full h-full"
+                            style={{ width: "100%", height: "100%" }}
                           />
                         </div>
                       </div>
@@ -357,6 +358,7 @@ export function OtherProjects({
                             width={300}
                             height={120}
                             className="object-cover w-full h-full"
+                            style={{ width: "100%", height: "100%" }}
                           />
                         </div>
                       </div>
