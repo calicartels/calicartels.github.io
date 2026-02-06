@@ -34,7 +34,7 @@ export function PersonalIntro() {
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
           <FadeIn className="md:col-span-2">
-            <h2 className="text-2xl md:text-3xl font-normal leading-snug text-background text-balance">
+            <h2 className="text-3xl md:text-4xl font-normal leading-snug text-background text-balance">
               A bit about me
             </h2>
             <div className="w-10 h-[2px] bg-background/20 mt-4" />

@@ -6,9 +6,8 @@ export function CrowdSection() {
   return (
     <section className="relative h-[90vh] w-full bg-background text-foreground">
       <div className="absolute left-1/2 top-22 grid -translate-x-1/2 content-start justify-items-center gap-6 text-center z-10">
-        <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-background after:to-foreground after:content-['']">
-          Crowd Canvas
-        </span>
+        {/* Removed text label to keep the crowd canvas clean at the bottom */}
+        <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-background after:to-foreground after:content-['']" />
       </div>
       <div className="absolute bottom-0 h-full w-full">
         <CrowdCanvas

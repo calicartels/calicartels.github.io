@@ -77,16 +77,22 @@ export function Hero() {
             </h2>
 
             <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/70 max-w-xl text-pretty">
-              MEng in AI for Product Innovation from Duke University.
-              Passionate about Data Science, Artificial Intelligence, &amp;
-              Computer Vision.
+              MEng in AI for Product Innovation from Duke University. I&apos;m
+              obsessed with end-to-end{" "}
+              <strong className="text-foreground">Computer Vision</strong>,{" "}
+              <strong className="text-foreground">Product Development</strong>,
+              and{" "}
+              <strong className="text-foreground">Generative AI</strong>—and I
+              love diving unreasonably deep into hard problems around vision,
+              GenAI, and LLMs until they turn into shippable systems.
             </p>
 
             <div className="flex flex-wrap gap-3 mt-8">
               <a
-                href="/assets/file/Resume.pdf"
+                href="/assets/file/Vishnu_Manoj_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
+                download
                 className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-foreground text-background font-medium text-sm shadow-md hover:shadow-lg transition-shadow"
               >
                 Resume

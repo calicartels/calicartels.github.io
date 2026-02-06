@@ -34,7 +34,7 @@ export function Footer() {
               </a>
               <p>
                 <i className="fas fa-map-marker-alt mr-1" />
-                Chennai, India
+                San Francisco, CA
               </p>
               <p>&copy; {year}</p>
             </div>
@@ -76,9 +76,10 @@ export function Footer() {
                   Credly
                 </a>
                 <a
-                  href="/assets/file/Resume.pdf"
+                  href="/assets/file/Vishnu_Manoj_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
+                  download
                   className="text-background/60 hover:text-background transition-colors"
                 >
                   Resume
