@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import Image from "next/image"
+/* eslint-disable @next/next/no-img-element */
 import DecryptedText from "@/components/decrypted-text"
 
 export function Hero() {
@@ -58,8 +58,8 @@ export function Hero() {
               <span className="relative inline-block">
                 <DecryptedText
                   text="Vishnu"
-                  speed={60}
-                  maxIterations={12}
+                  speed={100}
+                  maxIterations={18}
                   animateOn="view"
                   className="text-foreground"
                   encryptedClassName="text-muted-foreground/60"
@@ -77,9 +77,8 @@ export function Hero() {
             </h2>
 
             <p className="mt-6 text-base md:text-lg leading-relaxed text-foreground/70 max-w-xl text-pretty">
-              I am currently pursuing my MEng in Artificial Intelligence for
-              Product Innovation at Duke University. I&apos;m passionate in the
-              disciplines of Data Science, Artificial Intelligence, &amp;
+              MEng in AI for Product Innovation from Duke University.
+              Passionate about Data Science, Artificial Intelligence, &amp;
               Computer Vision.
             </p>
 
@@ -93,7 +92,7 @@ export function Hero() {
                 Resume
               </a>
               <a
-                href="#quote"
+                href="#experience"
                 className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-background text-foreground font-medium text-sm shadow-sm border border-border hover:shadow-md transition-shadow"
               >
                 Discover
@@ -102,14 +101,12 @@ export function Hero() {
           </div>
 
           <div className="lg:w-2/5 hidden lg:flex items-center justify-center">
-            <Image
+            <img
               src="/assets/image/absurd_lightbuld.gif"
               alt="Lightbulb illustration"
               width={300}
               height={300}
-              style={{ width: "300px", height: "auto" }}
-              unoptimized
-              priority
+              className="w-[300px] h-auto"
             />
           </div>
         </div>

@@ -16,7 +16,6 @@ type FeaturedProject = {
   image: string
   imageAlt: string
   summary: string
-  demoUrl?: string
 }
 
 const projects: FeaturedProject[] = [
@@ -67,23 +66,52 @@ const projects: FeaturedProject[] = [
       "GCP",
       "Tailwind",
     ],
-    skills: ["Python", "LLM", "Flask", "React"],
+    skills: ["Python", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/Agentic-Chatbot--Duke-Themed",
     image: "/assets/image/duke-chatbot.jpg",
     imageAlt: "Duke Agentic Chatbot",
-    demoUrl: "https://frontend-623186457718.us-central1.run.app",
     summary:
       "A dual-approach agentic chatbot for Duke University. The custom version uses Flask + LangGraph + Gemini with a Planning-Execution-Thinking-Evaluation workflow, querying Duke APIs and Google Custom Search. The second version uses Google Cloud Conversational Agents for rapid deployment. Both are cloud-hosted on GCP.",
   },
   {
     number: "03",
+    title: "RAG Evaluation Framework",
+    descriptions: [
+      "A comprehensive evaluation framework for Retrieval-Augmented Generation systems, benchmarking retrieval quality, generation faithfulness, and end-to-end performance.",
+      "Uses RAGAS metrics across different embedding models and chunk strategies, providing actionable insights for RAG pipeline optimization.",
+    ],
+    tags: ["Python", "LangChain", "RAGAS", "Sentence Transformers", "FAISS"],
+    skills: ["Python", "NLP", "LLM"],
+    githubUrl: "https://github.com/shaunak-badani/NLP_Project",
+    image: "/assets/image/rag-eval.jpg",
+    imageAlt: "RAG Evaluation Framework",
+    summary:
+      "An end-to-end evaluation framework for RAG systems. Benchmarks retrieval precision, generation faithfulness, and answer relevancy using RAGAS metrics across different embedding models and chunk strategies, providing actionable insights for RAG pipeline optimization.",
+  },
+  {
+    number: "04",
+    title: "HyperExplainer",
+    descriptions: [
+      "A Chrome extension that uses AI to explain hyperparameters in ML code. Hover over any parameter to see an interactive explanation with visualizations.",
+      "Powered by OpenAI and D3.js, it helps practitioners understand tuning implications in context without leaving their browser.",
+    ],
+    tags: ["JavaScript", "Chrome Extension", "OpenAI", "D3.js"],
+    skills: ["Python", "Machine Learning", "Deep Learning"],
+    githubUrl: "https://github.com/calicartels/HyperExplainer",
+    image: "/assets/image/hyperexplainer.jpg",
+    imageAlt: "HyperExplainer Chrome extension",
+    summary:
+      "A Chrome extension that detects hyperparameters in ML code on the web and overlays interactive AI-generated explanations with D3.js visualizations. Powered by OpenAI, it helps practitioners understand tuning implications in context without leaving their browser.",
+  },
+  {
+    number: "05",
     title: "ProAxion Industrial Chatbot",
     descriptions: [
       "A capstone project building an industrial IoT chatbot for ProAxion, enabling natural-language queries against machine health and maintenance data.",
       "Integrates with ProAxion's sensor platform to provide real-time equipment status, predictive maintenance insights, and historical trend analysis through a conversational interface.",
     ],
     tags: ["Python", "LangChain", "OpenAI", "Flask", "IoT", "RAG"],
-    skills: ["Python", "LLM", "NLP", "Flask"],
+    skills: ["Python", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/Capstone---ProAxion-Chatbot",
     image: "/assets/image/proaxion.jpg",
     imageAlt: "ProAxion Industrial Chatbot",
@@ -91,7 +119,7 @@ const projects: FeaturedProject[] = [
       "A capstone project building a conversational AI interface for ProAxion's industrial IoT platform. Uses LangChain and RAG to let maintenance teams query machine health data, predictive alerts, and historical trends in natural language. Backed by a Flask API connected to ProAxion's sensor infrastructure.",
   },
   {
-    number: "04",
+    number: "06",
     title: "Blind.Ai",
     descriptions: [
       "An app to make the lives of visually impaired people a little more ordinary, powered by Flutter, Python, Twilio, and Flask.",
@@ -105,15 +133,15 @@ const projects: FeaturedProject[] = [
       "YOLOv5",
       "Pytesseract",
     ],
-    skills: ["Python", "Flutter", "Flask", "Computer Vision", "Deep Learning"],
+    skills: ["Python", "Computer Vision", "Deep Learning"],
     githubUrl: "https://github.com/calicartels/blind.ai",
-    image: "/assets/image/Blind_Ai Logo 2.png",
+    image: "/assets/image/blind-ai.jpg",
     imageAlt: "Blind.ai app logo",
     summary:
       "A Flutter mobile app empowering visually impaired users with AI-powered features: real-time object detection via YOLOv5, currency recognition, text-to-speech OCR with Pytesseract, and an SOS emergency system through Twilio. The Flask backend handles inference and is deployed on PythonAnywhere.",
   },
   {
-    number: "05",
+    number: "07",
     title: "LLMTalk",
     descriptions: [
       "A Streamlit-based application that lets you chat with your audio files, powered by LangChain, ChromaDB, and OpenAI.",
@@ -127,9 +155,9 @@ const projects: FeaturedProject[] = [
       "LangChain",
       "AssemblyAI",
     ],
-    skills: ["Python", "Streamlit", "LLM", "NLP"],
+    skills: ["Python", "LLM", "NLP"],
     githubUrl: "https://github.com/calicartels/LLMTalk",
-    image: "/assets/image/LLMtalk Logo.jpeg",
+    image: "/assets/image/llmtalk.jpg",
     imageAlt: "LLMTalk logo",
     summary:
       "A conversational AI app built with Streamlit and LangChain that lets you chat with audio files or YouTube videos. Audio is transcribed via AssemblyAI, embedded into ChromaDB as vectors, and GPT-4 answers questions against the transcript context using retrieval-augmented generation.",
@@ -155,7 +183,6 @@ export function FeaturedProjects({
       githubUrl: project.githubUrl,
       summary: project.summary,
       skills: project.skills,
-      demoUrl: project.demoUrl,
     })
   }
 
@@ -206,12 +233,12 @@ export function FeaturedProjects({
                         </div>
                       </div>
                       <div className="h-[180px] overflow-hidden bg-secondary">
-                        <Image
+                          <Image
                           src={project.image}
                           alt={project.imageAlt}
                           width={550}
                           height={180}
-                          className="object-cover"
+                          className="object-cover w-full h-full"
                           style={{ width: "100%", height: "100%" }}
                         />
                       </div>

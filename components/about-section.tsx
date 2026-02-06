@@ -1,147 +1,177 @@
+"use client"
+
+import { motion, useInView } from "motion/react"
+import { useRef } from "react"
+
+const technologies = {
+  Languages: ["Python", "JavaScript", "SQL", "HTML", "Excel", "Statistics"],
+  Frameworks: [
+    "PyTorch",
+    "TensorFlow",
+    "Keras",
+    "Scikit-learn",
+    "OpenCV",
+    "LangChain / LangGraph",
+    "HuggingFace",
+    "NumPy / Pandas",
+    "PySpark",
+  ],
+  Platforms: ["AWS", "GCP", "Microsoft Azure", "Docker", "Kubernetes", "Git"],
+}
+
+const education = [
+  {
+    years: "2024 \u2014 2025",
+    school: "Duke University",
+    degree: "MEng in AI for Product Innovation",
+    gpa: "GPA: 3.72 / 4.0",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+        <path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5" />
+      </svg>
+    ),
+  },
+  {
+    years: "2019 \u2014 2024",
+    school: "Vellore Institute of Technology",
+    degree: "Integrated MTech in Computer Science",
+    gpa: "Specialization in Data Science",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+      </svg>
+    ),
+  },
+  {
+    years: "2004 \u2014 2019",
+    school: "Bala Vidya Mandir Senior Secondary School",
+    degree: "",
+    gpa: "",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+  },
+]
+
+function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode
+  delay?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-40px" })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 16 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 export function AboutSection() {
   return (
     <section id="about" className="py-24 px-6 bg-foreground text-background">
       <div className="max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          <h2 className="text-2xl md:text-3xl font-normal leading-snug text-balance">
-            Studying MEng in Artificial Intelligence for Product Innovation
-          </h2>
-          <div className="space-y-4 text-sm leading-relaxed text-background/80">
-            <p>
-              I am extremely <strong className="text-background">passionate</strong>{" "}
-              about all aspects of{" "}
-              <strong className="text-background">
-                Computer Vision, Product Development
-              </strong>{" "}
-              and <strong className="text-background">Generative AI</strong>. I
-              embrace{" "}
-              <strong className="text-background">working</strong> on research
-              and development in those topics to{" "}
-              <strong className="text-background">improve lives</strong> and{" "}
-              <strong className="text-background">experiences</strong>.
-            </p>
-            <p>
-              The <strong className="text-background">atmosphere</strong> in
-              which I work is{" "}
-              <strong className="text-background">essential</strong>, and I find
-              it difficult to{" "}
-              <strong className="text-background">collaborate</strong> with
-              individuals who aren&apos;t{" "}
-              <strong className="text-background">inspired</strong>. I&apos;m
-              driven to <strong className="text-background">grow</strong> as a{" "}
-              <strong className="text-background">developer</strong> and{" "}
-              <strong className="text-background">learn</strong> from others.
-            </p>
-            <p>
-              I enjoy spending time with my{" "}
-              <strong className="text-background">friends</strong>, training
-              myself in the arts of{" "}
-              <strong className="text-background">Mixed Martial Arts</strong>,
-              going to the <strong className="text-background">gym</strong>, and
-              at the <strong className="text-background">beach</strong> where I{" "}
-              <strong className="text-background">Surf</strong> and{" "}
-              <strong className="text-background">Scuba dive</strong>.
-            </p>
+        {/* Education */}
+        <FadeIn className="mb-20">
+          <div className="flex items-center gap-4 mb-10">
+            <h3 className="text-lg font-semibold tracking-wide uppercase text-background/90">
+              Education
+            </h3>
+            <div className="flex-1 h-px bg-background/15" />
           </div>
-        </div>
 
-        <div className="h-[1px] bg-background/20 mb-12" />
+          <div className="relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-[19px] top-3 bottom-3 w-px bg-background/15 hidden md:block" />
+
+            <div className="space-y-0">
+              {education.map((edu, i) => (
+                <FadeIn key={edu.school} delay={0.1 + i * 0.1}>
+                  <div className="flex gap-6 group relative">
+                    {/* Timeline node */}
+                    <div className="hidden md:flex flex-col items-center pt-1">
+                      <div className="relative z-10 w-10 h-10 rounded-full border border-background/20 bg-foreground flex items-center justify-center text-background/60 group-hover:text-background group-hover:border-background/40 transition-colors">
+                        {edu.icon}
+                      </div>
+                    </div>
+
+                    {/* Card */}
+                    <div className="flex-1 pb-8">
+                      <div className="rounded-xl border border-background/10 bg-background/[0.04] p-6 group-hover:border-background/20 group-hover:bg-background/[0.06] transition-all">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                          <div>
+                            <h4 className="text-base font-semibold text-background">
+                              {edu.school}
+                            </h4>
+                            {edu.degree && (
+                              <p className="text-sm text-background/70 mt-0.5">
+                                {edu.degree}
+                              </p>
+                            )}
+                          </div>
+                          <span className="text-xs font-mono text-background/40 whitespace-nowrap shrink-0">
+                            {edu.years}
+                          </span>
+                        </div>
+                        {edu.gpa && (
+                          <p className="text-xs text-background/50 mt-2 font-mono">
+                            {edu.gpa}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
 
         {/* Technologies */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          <div>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-background/30 mb-4">
+        <FadeIn delay={0.15}>
+          <div className="flex items-center gap-4 mb-10">
+            <h3 className="text-lg font-semibold tracking-wide uppercase text-background/90">
               Technologies
-            </span>
+            </h3>
+            <div className="flex-1 h-px bg-background/15" />
           </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-3">Languages</h3>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Python</li>
-              <li>Javascript</li>
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>C#</li>
-            </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {Object.entries(technologies).map(([category, items], catIdx) => (
+              <FadeIn key={category} delay={0.2 + catIdx * 0.08}>
+                <div className="rounded-xl border border-background/10 bg-background/[0.04] p-6 h-full hover:border-background/20 hover:bg-background/[0.06] transition-all">
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-background/50 mb-4">
+                    {category}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((item) => (
+                      <span
+                        key={item}
+                        className="inline-block text-sm px-3 py-1.5 rounded-full border border-background/15 text-background/80 hover:text-background hover:border-background/30 transition-colors"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
           </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-3">Frameworks</h3>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>TensorFlow</li>
-              <li>PyTorch</li>
-              <li>Keras</li>
-              <li>Scikit-Learn</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-3">Others</h3>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Amazon Web Services</li>
-              <li>Microsoft Azure</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="h-[1px] bg-background/20 mb-12" />
-
-        {/* Education */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          <div>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-background/30 mb-4">
-              Education
-            </span>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-1">2024 &mdash; 2026</h3>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Duke University</li>
-              <li>MEng in AI for Product Innovation</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-1">2019 &mdash; 2024</h3>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Vellore Institute of Technology</li>
-              <li>Integrated MTech in Computer Science</li>
-              <li>Specialization in Data Science</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-1">2004 &mdash; 2019</h3>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Bala Vidya Mandir Senior Secondary School</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="h-[1px] bg-background/20 mb-12" />
-
-        {/* Certifications */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-background/30 mb-4">
-              Certifications
-            </span>
-          </div>
-          <div>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Introduction to TensorFlow for AI, ML, and DL</li>
-              <li className="text-background/50">Coursera (2022)</li>
-            </ul>
-          </div>
-          <div>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>AWS Certified Cloud Practitioner</li>
-              <li className="text-background/50">Amazon Services (2022)</li>
-            </ul>
-          </div>
-          <div>
-            <ul className="space-y-1 text-sm text-background/70">
-              <li>Developing AI Applications on Azure</li>
-              <li className="text-background/50">Coursera (2022)</li>
-            </ul>
-          </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   )
