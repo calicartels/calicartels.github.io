@@ -203,7 +203,11 @@ export function ProjectModal({
                       background: "#007aff",
                       color: "#fff",
                     }}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                      window.open(project.githubUrl, "_blank", "noopener,noreferrer")
+                    }}
                   >
                     <svg
                       width="16"
