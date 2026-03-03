@@ -5,6 +5,7 @@ import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
 import type { Skill } from "@/components/skill-filter"
 import type { ProjectDetail } from "@/components/project-modal"
 import { cn } from "@/lib/utils"
+import DecryptedText from "@/components/decrypted-text"
 
 type FeaturedProject = {
   number: string
@@ -21,6 +22,36 @@ type FeaturedProject = {
 const projects: FeaturedProject[] = [
   {
     number: "00",
+    title: "SpeakWhenSpoken2",
+    descriptions: [
+      "A Voice AI agent built for group conversations — not 1-on-1 (those are solved). Handles overlapping speakers, fragmented context, backchannels misread as turn endings, and silence that belongs to someone thinking rather than open floor.",
+      "Built on Voice Activity Projection, Streaming Sortformer diarization, and Mercury 2 (1000+ tok/s diffusion LLM). Runs on a single rented 3090 for under $10 in compute.",
+    ],
+    tags: ["Python", "PyTorch", "vLLM", "NeMo", "WebSocket", "ElevenLabs"],
+    skills: ["Python", "Deep Learning", "NLP"],
+    githubUrl: "https://github.com/calicartels/SpeakWhenSpoken2",
+    image: "/assets/image/SpeakWhenSpoken2.png",
+    imageAlt: "SpeakWhenSpoken2 voice AI agent",
+    summary:
+      "A voice AI agent that knows social context and speaks when required — designed for multi-party group conversations. Uses Voice Activity Projection to predict turn-taking, Streaming Sortformer for real-time speaker diarization, and Mercury 2 diffusion LLM for 1000+ tok/s generation. Inspired by Ishiki Labs' Fern (YC W26), targeting the fundamentally harder problem of group settings with overlapping speakers and fragmented context. Runs on a single 3090 for under $10.",
+  },
+  {
+    number: "01",
+    title: "EgoCut",
+    descriptions: [
+      "Cheap spatiotemporal filtering for egocentric factory video — so Gemini only annotates what matters. Reduces annotation costs by filtering out 80%+ of unusable footage before it reaches expensive long-context LLM calls.",
+      "Uses Meta's V-JEPA 2 (1B params, frozen) as a backbone with a 578K-parameter attentive probe trained on Gemini-calibrated labels across 9 factories, achieving 0.85 F1 on action cycle detection.",
+    ],
+    tags: ["Python", "PyTorch", "V-JEPA 2", "Gemini", "ffmpeg", "decord"],
+    skills: ["Python", "Deep Learning", "Computer Vision", "Robotics"],
+    githubUrl: "https://github.com/calicartels/EgoCut",
+    image: "/assets/image/Egocut.png",
+    imageAlt: "EgoCut egocentric video filtering",
+    summary:
+      "A spatiotemporal pre-filtering pipeline for egocentric factory headcam footage. Frozen V-JEPA 2 ViT-g (1B params) extracts 8-second clip embeddings, and a 578K-parameter attentive probe classifies windows as 'Golden Standard' or noise. Gemini 3 Flash labels the training data via a novel few-shot calibration loop with context caching ($6 for 60 videos). Tested across 9 factories with tasks ranging from 3s electronics assembly to 22s panel lamination, hitting 0.85 F1 on the best factories.",
+  },
+  {
+    number: "02",
     title: "PicoChat",
     descriptions: [
       "Implementing inference optimizations for Large Language Models using Karpathy's nanochat as the base. Built a working distillation pipeline with MQA, multi-token prediction heads, speculative decoding, structured pruning, and INT8 quantization.",
@@ -35,7 +66,7 @@ const projects: FeaturedProject[] = [
       "A sub-$10 LLM distillation and inference optimization project built on Karpathy's nanochat. Implements Multi-Query Attention, multi-token prediction, speculative decoding with a draft head, structured pruning, and INT8 quantization. Trained a 375M-param student from a 2B teacher on a single A100, compressing the model by 70.7% while keeping the pipeline production-ready.",
   },
   {
-    number: "01",
+    number: "03",
     title: "PersonaPlex Voice Diarization",
     descriptions: [
       "A speaker diarization system that identifies and segments different speakers in audio recordings, enabling per-speaker analysis and transcription.",
@@ -51,7 +82,7 @@ const projects: FeaturedProject[] = [
       "A speaker diarization pipeline using pyannote and Whisper to identify, segment, and transcribe individual speakers from audio. Leverages voice activity detection and neural embedding clustering to handle overlapping speech and produce per-speaker transcripts.",
   },
   {
-    number: "02",
+    number: "04",
     title: "Duke Agentic Chatbot",
     descriptions: [
       "A dual-implementation agentic chatbot for Duke University: one built from scratch with Flask, LangGraph, and Gemini, and another using Google Cloud Conversational Agents.",
@@ -74,7 +105,7 @@ const projects: FeaturedProject[] = [
       "A dual-approach agentic chatbot for Duke University. The custom version uses Flask + LangGraph + Gemini with a Planning-Execution-Thinking-Evaluation workflow, querying Duke APIs and Google Custom Search. The second version uses Google Cloud Conversational Agents for rapid deployment. Both are cloud-hosted on GCP.",
   },
   {
-    number: "03",
+    number: "05",
     title: "RAG Evaluation Framework",
     descriptions: [
       "A comprehensive evaluation framework for Retrieval-Augmented Generation systems, benchmarking retrieval quality, generation faithfulness, and end-to-end performance.",
@@ -89,7 +120,7 @@ const projects: FeaturedProject[] = [
       "An end-to-end evaluation framework for RAG systems. Benchmarks retrieval precision, generation faithfulness, and answer relevancy using RAGAS metrics across different embedding models and chunk strategies, providing actionable insights for RAG pipeline optimization.",
   },
   {
-    number: "04",
+    number: "06",
     title: "HyperExplainer",
     descriptions: [
       "A Chrome extension that uses AI to explain hyperparameters in ML code. Hover over any parameter to see an interactive explanation with visualizations.",
@@ -104,7 +135,7 @@ const projects: FeaturedProject[] = [
       "A Chrome extension that detects hyperparameters in ML code on the web and overlays interactive AI-generated explanations with D3.js visualizations. Powered by OpenAI, it helps practitioners understand tuning implications in context without leaving their browser.",
   },
   {
-    number: "05",
+    number: "07",
     title: "ProAxion Industrial Chatbot",
     descriptions: [
       "A capstone project building an industrial IoT chatbot for ProAxion, enabling natural-language queries against machine health and maintenance data.",
@@ -119,7 +150,7 @@ const projects: FeaturedProject[] = [
       "A capstone project building a conversational AI interface for ProAxion's industrial IoT platform. Uses LangChain and RAG to let maintenance teams query machine health data, predictive alerts, and historical trends in natural language. Backed by a Flask API connected to ProAxion's sensor infrastructure.",
   },
   {
-    number: "06",
+    number: "08",
     title: "Blind.Ai",
     descriptions: [
       "An app to make the lives of visually impaired people a little more ordinary, powered by Flutter, Python, Twilio, and Flask.",
@@ -141,7 +172,7 @@ const projects: FeaturedProject[] = [
       "A Flutter mobile app empowering visually impaired users with AI-powered features: real-time object detection via YOLOv5, currency recognition, text-to-speech OCR with Pytesseract, and an SOS emergency system through Twilio. The Flask backend handles inference and is deployed on PythonAnywhere.",
   },
   {
-    number: "07",
+    number: "09",
     title: "LLMTalk",
     descriptions: [
       "A Streamlit-based application that lets you chat with your audio files, powered by LangChain, ChromaDB, and OpenAI.",
@@ -190,7 +221,15 @@ export function FeaturedProjects({
     <section id="featured-projects" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-16 text-balance">
-          {"Things I've Developed"}
+          <DecryptedText
+            text="Things I've Developed"
+            speed={50}
+            maxIterations={12}
+            sequential
+            animateOn="view"
+            className="text-foreground"
+            encryptedClassName="text-muted-foreground/40"
+          />
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">

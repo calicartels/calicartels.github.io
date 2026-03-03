@@ -58,6 +58,14 @@ export function Footer() {
                   GitHub
                 </a>
                 <a
+                  href="https://x.com/vishnutm244412"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-background/60 hover:text-background transition-colors"
+                >
+                  Twitter
+                </a>
+                <a
                   href="mailto:tm.vishnu.ms@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"

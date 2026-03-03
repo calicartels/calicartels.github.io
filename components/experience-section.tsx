@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react"
+import DecryptedText from "@/components/decrypted-text"
 
 type TimelineItem = {
   date: string
@@ -13,7 +14,18 @@ type TimelineItem = {
 
 const internships: TimelineItem[] = [
   {
-    date: "Aug '25 - Present",
+    date: "Feb '26 - Present",
+    title: "Human Archive (YC W26)",
+    subtitle: "MLE Intern",
+    url: "https://www.ycombinator.com/companies/human-archive",
+    details: [
+      "Architected a spatiotemporal pre-filtering pipeline on frozen V-JEPA 2 embeddings to gate egocentric headcam windows before Gemini inference, reducing annotation costs by 80%.",
+      "Designed and trained a 578K-parameter attentive probe on V-JEPA-2 ViT-g (1B parameters, frozen) embeddings, achieving 0.85 F1 in detecting factory worker action cycles across 9 factories.",
+      "Integrated multimodal industrial sensing streams including head mounted egocentric video, hand mounted object view cameras, and IMU based pressure glove sensors to curate and open source a large scale embodied factory dataset.",
+    ],
+  },
+  {
+    date: "Aug '25 - Jan '26",
     title: "TRUST Lab Duke DeepTech",
     subtitle: "Lead AI Developer",
     url: "https://www.duketrustlab.com/",
@@ -25,11 +37,12 @@ const internships: TimelineItem[] = [
   {
     date: "Jun '25 - Aug '25",
     title: "JPMorgan Chase & Co.",
-    subtitle: "AI/ML Associate Intern",
+    subtitle: "AIML Associate Intern",
     url: "https://www.jpmorganchase.com/",
     details: [
-      "Led automation of SAR Narrative generation using AWS Bedrock, cutting costs by $50,000 and reducing production time by 90% through prompt engineering.",
-      "Built a SHAP Explainer Model to provide explanations to outputs for combating anti-money laundering.",
+      "Led end-to-end automation of Suspicious Activity Report (SAR) narrative generation using AWS Bedrock, designing structured chain-of-thought prompting and context engineering workflows.",
+      "Reduced production time by 90% and lowered operational costs by $50K by optimizing prompt structure, retrieval context, and output standardization for compliance review.",
+      "Built a SHAP-based explainability framework to interpret fraud and AML model predictions, improving transparency and auditability for risk and compliance teams.",
     ],
   },
   {
@@ -323,7 +336,15 @@ export function ExperienceSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          My Experience
+          <DecryptedText
+            text="My Experience"
+            speed={60}
+            maxIterations={12}
+            sequential
+            animateOn="view"
+            className="text-foreground"
+            encryptedClassName="text-muted-foreground/40"
+          />
         </motion.h2>
         <motion.div
           className="w-12 h-[2px] bg-foreground mb-10"

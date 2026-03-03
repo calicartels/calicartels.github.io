@@ -11,6 +11,7 @@ const skills = [
   "LLM",
   "NLP",
   "Computer Vision",
+  "Robotics",
   "Data Science",
   "XR / AR",
 ] as const

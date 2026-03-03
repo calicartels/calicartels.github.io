@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "motion/react"
 import { useRef } from "react"
+import DecryptedText from "@/components/decrypted-text"
 
 function FadeIn({
   children,
@@ -35,7 +36,15 @@ export function PersonalIntro() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
           <FadeIn className="md:col-span-2">
             <h2 className="text-3xl md:text-4xl font-normal leading-snug text-background text-balance">
-              A bit about me
+              <DecryptedText
+                text="A bit about me"
+                speed={60}
+                maxIterations={12}
+                sequential
+                animateOn="view"
+                className="text-background"
+                encryptedClassName="text-background/30"
+              />
             </h2>
             <div className="w-10 h-[2px] bg-background/20 mt-4" />
           </FadeIn>

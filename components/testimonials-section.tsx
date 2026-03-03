@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "motion/react"
+import DecryptedText from "@/components/decrypted-text"
 
 type Testimonial = {
   name: string
@@ -84,7 +85,15 @@ export function TestimonialsSection() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-normal text-foreground text-balance">
-              What Others Say
+              <DecryptedText
+                text="What Others Say"
+                speed={60}
+                maxIterations={12}
+                sequential
+                animateOn="view"
+                className="text-foreground"
+                encryptedClassName="text-muted-foreground/40"
+              />
             </h2>
             <div className="w-10 h-[2px] bg-foreground/20 mt-3" />
           </div>

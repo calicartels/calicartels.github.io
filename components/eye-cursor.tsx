@@ -65,36 +65,37 @@ export function EyeCursor() {
     <div
       ref={cursorRef}
       className="fixed top-0 left-0 pointer-events-none hidden md:block"
-      style={{ willChange: "transform", zIndex: 100001 }}
+      style={{ willChange: "transform", zIndex: 100001, mixBlendMode: "difference" }}
     >
-      {/* Eye outer - white of the eye */}
       <div
-        className="relative flex items-center justify-center rounded-full bg-background border-2 border-foreground/80 shadow-lg"
+        className="relative flex items-center justify-center rounded-full"
         style={{
-          width: 28,
-          height: 28,
-          marginLeft: -14,
-          marginTop: -14,
+          width: 32,
+          height: 32,
+          marginLeft: -16,
+          marginTop: -16,
+          border: "2.5px solid white",
+          backgroundColor: "transparent",
         }}
       >
-        {/* Pupil */}
         <div
           ref={pupilRef}
-          className="rounded-full bg-foreground"
+          className="rounded-full"
           style={{
-            width: 10,
-            height: 10,
+            width: 8,
+            height: 8,
             willChange: "transform",
+            backgroundColor: "white",
           }}
         />
-        {/* Light reflection */}
         <div
-          className="absolute rounded-full bg-background/90"
+          className="absolute rounded-full"
           style={{
-            width: 4,
-            height: 4,
-            top: 6,
-            right: 7,
+            width: 3,
+            height: 3,
+            top: 7,
+            right: 8,
+            backgroundColor: "#000",
           }}
         />
       </div>
