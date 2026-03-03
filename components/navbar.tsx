@@ -6,10 +6,16 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#featured-projects" },
+  { label: "Writing", href: "#writing" },
   { label: "Github", href: "https://github.com/calicartels", external: true },
   {
     label: "Linkedin",
     href: "https://www.linkedin.com/in/vishnu-mukundan-tm/",
+    external: true,
+  },
+  {
+    label: "Twitter",
+    href: "https://x.com/vishnutm244412",
     external: true,
   },
 ]
