@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "motion/react"
 import { useRef } from "react"
+import DecryptedText from "@/components/decrypted-text"
 
 type Article = {
   title: string
@@ -102,7 +103,15 @@ export function WritingSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Writing
+          <DecryptedText
+            text="Writing"
+            speed={60}
+            maxIterations={12}
+            sequential
+            animateOn="view"
+            className="text-foreground"
+            encryptedClassName="text-muted-foreground/40"
+          />
         </motion.h2>
         <motion.div
           className="w-12 h-[2px] bg-foreground mb-10"

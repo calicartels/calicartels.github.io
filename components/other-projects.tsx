@@ -5,6 +5,7 @@ import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
 import type { Skill } from "@/components/skill-filter"
 import type { ProjectDetail } from "@/components/project-modal"
 import { cn } from "@/lib/utils"
+import DecryptedText from "@/components/decrypted-text"
 
 type OtherProject = {
   title: string
@@ -244,7 +245,15 @@ export function OtherProjects({
       <section className="py-24 px-6 bg-secondary/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-16 text-balance">
-            Other Projects
+            <DecryptedText
+              text="Other Projects"
+              speed={50}
+              maxIterations={12}
+              sequential
+              animateOn="view"
+              className="text-foreground"
+              encryptedClassName="text-muted-foreground/40"
+            />
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -320,7 +329,15 @@ export function OtherProjects({
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-16 text-balance">
-            Research & Notebooks
+            <DecryptedText
+              text="Research & Notebooks"
+              speed={50}
+              maxIterations={12}
+              sequential
+              animateOn="view"
+              className="text-foreground"
+              encryptedClassName="text-muted-foreground/40"
+            />
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react"
+import DecryptedText from "@/components/decrypted-text"
 
 type TimelineItem = {
   date: string
@@ -335,7 +336,15 @@ export function ExperienceSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          My Experience
+          <DecryptedText
+            text="My Experience"
+            speed={60}
+            maxIterations={12}
+            sequential
+            animateOn="view"
+            className="text-foreground"
+            encryptedClassName="text-muted-foreground/40"
+          />
         </motion.h2>
         <motion.div
           className="w-12 h-[2px] bg-foreground mb-10"

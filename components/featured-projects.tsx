@@ -5,6 +5,7 @@ import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
 import type { Skill } from "@/components/skill-filter"
 import type { ProjectDetail } from "@/components/project-modal"
 import { cn } from "@/lib/utils"
+import DecryptedText from "@/components/decrypted-text"
 
 type FeaturedProject = {
   number: string
@@ -220,7 +221,15 @@ export function FeaturedProjects({
     <section id="featured-projects" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-16 text-balance">
-          {"Things I've Developed"}
+          <DecryptedText
+            text="Things I've Developed"
+            speed={50}
+            maxIterations={12}
+            sequential
+            animateOn="view"
+            className="text-foreground"
+            encryptedClassName="text-muted-foreground/40"
+          />
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
